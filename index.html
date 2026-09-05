@@ -1,0 +1,198 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RAVI SENSI</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">RAVI<span>SENSI</span></div>
+
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#gerador">Gerador</a>
+            <a href="#sobre">Sobre</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="hero" id="inicio">
+
+            <div class="hero-content">
+
+                <p class="tag">🎯 CONFIGURAÇÃO FREE FIRE</p>
+
+                <h1>
+                    Encontre sua
+                    <span>melhor SENSI.</span>
+                </h1>
+
+                <p class="description">
+                    Gere uma configuração personalizada de sensibilidade
+                    de forma rápida e simples.
+                </p>
+
+                <a href="#gerador" class="button">
+                    GERAR MINHA SENSI
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <section class="generator" id="gerador">
+
+            <div class="section-title">
+                <p>RAVI SENSI</p>
+                <h2>GERADOR DE SENSIBILIDADE</h2>
+                <span>Configure suas preferências abaixo.</span>
+            </div>
+
+
+            <div class="generator-box">
+
+                <div class="input-group">
+
+                    <label for="device">Seu dispositivo</label>
+
+                    <select id="device">
+                        <option value="android">Android</option>
+                        <option value="iphone">iPhone</option>
+                        <option value="emulador">Emulador</option>
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="style">Estilo de jogo</label>
+
+                    <select id="style">
+
+                        <option value="precisao">
+                            Precisão
+                        </option>
+
+                        <option value="capa">
+                            Capa
+                        </option>
+
+                        <option value="equilibrada">
+                            Equilibrada
+                        </option>
+
+                        <option value="rapida">
+                            Rápida
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button class="generate-button" onclick="generateSensi()">
+                    ⚡ GERAR SENSI
+                </button>
+
+
+                <div class="result" id="result">
+
+                    <h3>SUA CONFIGURAÇÃO</h3>
+
+                    <div class="values">
+
+                        <div class="value">
+                            <span>Geral</span>
+                            <strong id="geral">---</strong>
+                        </div>
+
+                        <div class="value">
+                            <span>Red Dot</span>
+                            <strong id="redDot">---</strong>
+                        </div>
+
+                        <div class="value">
+                            <span>Mira 2X</span>
+                            <strong id="mira2x">---</strong>
+                        </div>
+
+                        <div class="value">
+                            <span>Mira 4X</span>
+                            <strong id="mira4x">---</strong>
+                        </div>
+
+                        <div class="value">
+                            <span>AWM</span>
+                            <strong id="awm">---</strong>
+                        </div>
+
+                        <div class="value">
+                            <span>DPI</span>
+                            <strong id="dpi">---</strong>
+                        </div>
+
+                        <div class="value">
+                            <span>Botão</span>
+                            <strong id="botao">---</strong>
+                        </div>
+
+                    </div>
+
+                    <button class="copy-button" onclick="copySensi()">
+                        📋 COPIAR CONFIGURAÇÃO
+                    </button>
+
+                    <p id="message"></p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="about" id="sobre">
+
+            <div class="section-title">
+
+                <p>SOBRE</p>
+
+                <h2>RAVI SENSI</h2>
+
+                <span>
+                    Um projeto criado para gerar configurações
+                    personalizadas de sensibilidade.
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 RAVI SENSI — Todos os direitos reservados.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
