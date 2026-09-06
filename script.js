@@ -1,509 +1,1038 @@
-/* ==========================================
-   RAVI SENSI
-   SISTEMA PRINCIPAL
-========================================== */
+```javascript
+/* =========================================================
+   RAVI FF PANEL — SCRIPT.JS
+   ========================================================= */
 
+"use strict";
 
-/* ==========================================
-   GERADOR DE SENSIBILIDADE
-========================================== */
+/* =========================================================
+   CONFIGURAÇÃO
+   ========================================================= */
 
-const sensis = {
+const ADMIN_CODE = "R2026";
 
-    android: {
+const DEFAULT_CODES = [
+    "RAVI-Q8K4-M7XP",
+    "RAVI-2N6T-W9ZR",
+    "RAVI-H5Q8-K3YM",
+    "RAVI-7X2P-N6VK",
+    "RAVI-M4ZT-8QWR",
+    "RAVI-9K3H-T7XN",
+    "RAVI-W6MP-2R8Q",
+    "RAVI-F7ZN-5K4T",
+    "RAVI-3Y8Q-H6MW",
+    "RAVI-P2VK-9X5N",
+    "RAVI-X7K9-82QM",
+    "RAVI-P4ZT-6N8K",
+    "RAVI-3QW7-H9XP",
+    "RAVI-M8KD-2R5V",
+    "RAVI-T6YQ-9L3N",
+    "RAVI-7FHP-4X2M",
+    "RAVI-K5RN-8Q6T",
+    "RAVI-9Z3C-W7KD",
+    "RAVI-H2XM-6P8Q",
+    "RAVI-V4TN-7K9R"
+];
 
-        precisao: {
-            geral: 92,
-            redDot: 88,
-            mira2x: 82,
-            mira4x: 76,
-            awm: 45,
-            dpi: 480,
-            botao: 52
-        },
+/* =========================================================
+   STORAGE
+   ========================================================= */
 
-        capa: {
-            geral: 98,
-            redDot: 94,
-            mira2x: 88,
-            mira4x: 80,
-            awm: 48,
-            dpi: 520,
-            botao: 55
-        },
+function loadData(key, fallback) {
+    try {
+        const data = localStorage.getItem(key);
 
-        equilibrada: {
-            geral: 95,
-            redDot: 90,
-            mira2x: 84,
-            mira4x: 77,
-            awm: 46,
-            dpi: 500,
-            botao: 53
-        },
-
-        rapida: {
-            geral: 100,
-            redDot: 97,
-            mira2x: 92,
-            mira4x: 84,
-            awm: 50,
-            dpi: 560,
-            botao: 58
+        if (!data) {
+            return fallback;
         }
 
-    },
-
-
-    iphone: {
-
-        precisao: {
-            geral: 90,
-            redDot: 86,
-            mira2x: 80,
-            mira4x: 74,
-            awm: 43,
-            dpi: 420,
-            botao: 50
-        },
-
-        capa: {
-            geral: 96,
-            redDot: 93,
-            mira2x: 87,
-            mira4x: 79,
-            awm: 47,
-            dpi: 450,
-            botao: 54
-        },
-
-        equilibrada: {
-            geral: 93,
-            redDot: 89,
-            mira2x: 83,
-            mira4x: 76,
-            awm: 45,
-            dpi: 430,
-            botao: 52
-        },
-
-        rapida: {
-            geral: 100,
-            redDot: 96,
-            mira2x: 91,
-            mira4x: 83,
-            awm: 49,
-            dpi: 470,
-            botao: 57
-        }
-
-    },
-
-
-    emulador: {
-
-        precisao: {
-            geral: 88,
-            redDot: 84,
-            mira2x: 78,
-            mira4x: 72,
-            awm: 40,
-            dpi: 800,
-            botao: 48
-        },
-
-        capa: {
-            geral: 94,
-            redDot: 91,
-            mira2x: 86,
-            mira4x: 78,
-            awm: 44,
-            dpi: 900,
-            botao: 52
-        },
-
-        equilibrada: {
-            geral: 91,
-            redDot: 87,
-            mira2x: 82,
-            mira4x: 75,
-            awm: 42,
-            dpi: 850,
-            botao: 50
-        },
-
-        rapida: {
-            geral: 98,
-            redDot: 94,
-            mira2x: 90,
-            mira4x: 82,
-            awm: 47,
-            dpi: 950,
-            botao: 56
-        }
-
+        return JSON.parse(data);
+    } catch (error) {
+        console.warn("Erro ao carregar:", key);
+        return fallback;
     }
-
-};
-
-
-/* GERAR SENSI */
-
-function generateSensi() {
-
-    const device =
-        document.getElementById("device").value;
-
-    const style =
-        document.getElementById("style").value;
-
-
-    const config =
-        sensis[device][style];
-
-
-    document.getElementById("geral").textContent =
-        config.geral;
-
-    document.getElementById("redDot").textContent =
-        config.redDot;
-
-    document.getElementById("mira2x").textContent =
-        config.mira2x;
-
-    document.getElementById("mira4x").textContent =
-        config.mira4x;
-
-    document.getElementById("awm").textContent =
-        config.awm;
-
-    document.getElementById("dpi").textContent =
-        config.dpi;
-
-    document.getElementById("botao").textContent =
-        config.botao;
-
-
-    const result =
-        document.getElementById("result");
-
-
-    result.style.display = "block";
-
-
-    document.getElementById("message").textContent =
-        "🔥 Configuração gerada! Teste e ajuste conforme sua preferência.";
-
-
-    result.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-    });
-
 }
 
+function saveData(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.warn("Erro ao salvar:", key);
+    }
+}
 
-/* COPIAR SENSI */
+/* =========================================================
+   CÓDIGOS
+   ========================================================= */
 
-function copySensi() {
+let codes = loadData(
+    "ravi_codes",
+    DEFAULT_CODES.map(code => ({
+        code: code,
+        active: true
+    }))
+);
 
-    const texto = `🔥 RAVI SENSI
+/* =========================================================
+   PRODUTOS
+   ========================================================= */
 
-🎯 Geral: ${document.getElementById("geral").textContent}
-🔴 Red Dot: ${document.getElementById("redDot").textContent}
-🔭 Mira 2X: ${document.getElementById("mira2x").textContent}
-🔭 Mira 4X: ${document.getElementById("mira4x").textContent}
-🎯 AWM: ${document.getElementById("awm").textContent}
-📱 DPI: ${document.getElementById("dpi").textContent}
-🔘 Botão: ${document.getElementById("botao").textContent}
+const DEFAULT_PRODUCTS = [
+    {
+        id: 1,
+        name: "Basic",
+        price: 9.90,
+        active: true
+    },
+    {
+        id: 2,
+        name: "Premium",
+        price: 19.90,
+        active: true
+    },
+    {
+        id: 3,
+        name: "VIP",
+        price: 29.90,
+        active: true
+    }
+];
 
-⚡ RAVI SENSI`;
+let products = loadData(
+    "ravi_products",
+    DEFAULT_PRODUCTS
+);
 
+/* =========================================================
+   USUÁRIO ATUAL
+   ========================================================= */
 
-    navigator.clipboard.writeText(texto)
+let currentUser = loadData("ravi_user", null);
 
-        .then(() => {
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
 
-            document.getElementById("message").textContent =
-                "✅ Configuração copiada com sucesso!";
+document.addEventListener("DOMContentLoaded", () => {
+    setupEvents();
+    setupRanges();
+    restoreSession();
+});
 
-        })
+/* =========================================================
+   EVENTOS
+   ========================================================= */
 
-        .catch(() => {
+function setupEvents() {
 
-            alert(
-                "Não foi possível copiar automaticamente. " +
-                "Copie a configuração manualmente."
-            );
+    const loginForm = document.getElementById("loginForm");
 
+    if (loginForm) {
+        loginForm.addEventListener("submit", handleLogin);
+    }
+
+    const menuButton = document.querySelector(".mobile-menu");
+
+    if (menuButton) {
+        menuButton.addEventListener("click", toggleSidebar);
+    }
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.addEventListener("click", () => {
+
+            document.querySelectorAll(".nav-item")
+                .forEach(nav => nav.classList.remove("active"));
+
+            item.classList.add("active");
+
+            closeSidebar();
         });
-
-}
-
-
-/* ==========================================
-   RAVI BOOST
-========================================== */
-
-const boostConfigs = {
-
-    android: {
-
-        fps: "Alto",
-
-        graphics: "Suave",
-
-        shadows: "Desativadas",
-
-        effects: "Baixo",
-
-        performance: "Prioridade máxima",
-
-        connection: "Estável",
-
-        tip:
-            "Feche aplicativos em segundo plano e evite jogar com o aparelho muito quente."
-
-    },
-
-
-    iphone: {
-
-        fps: "Alto",
-
-        graphics: "Suave",
-
-        shadows: "Desativadas",
-
-        effects: "Baixo",
-
-        performance: "Alta estabilidade",
-
-        connection: "Estável",
-
-        tip:
-            "Feche aplicativos desnecessários e evite jogar enquanto o aparelho estiver aquecendo demais."
-
-    },
-
-
-    emulador: {
-
-        fps: "Alto",
-
-        graphics: "Suave",
-
-        shadows: "Desativadas",
-
-        effects: "Baixo",
-
-        performance: "Alto desempenho",
-
-        connection: "Estável",
-
-        tip:
-            "Feche programas desnecessários no Windows e evite downloads durante a gameplay."
-
-    }
-
-};
-
-
-/* OTIMIZAR */
-
-function optimizeGame() {
-
-    const device =
-        document.getElementById(
-            "optimizationDevice"
-        ).value;
-
-
-    const config =
-        boostConfigs[device];
-
-
-    document.getElementById("boostFps").textContent =
-        config.fps;
-
-    document.getElementById("boostGraphics").textContent =
-        config.graphics;
-
-    document.getElementById("boostShadows").textContent =
-        config.shadows;
-
-    document.getElementById("boostEffects").textContent =
-        config.effects;
-
-    document.getElementById("boostPerformance").textContent =
-        config.performance;
-
-    document.getElementById("boostConnection").textContent =
-        config.connection;
-
-    document.getElementById("boostTip").textContent =
-        config.tip;
-
-
-    const result =
-        document.getElementById(
-            "optimizationResult"
-        );
-
-
-    result.style.display = "block";
-
-
-    result.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
     });
 
+    document.querySelectorAll(".toggle").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            toggle.classList.toggle("active");
+        });
+    });
+
+    document.querySelectorAll(".zone").forEach(zone => {
+        zone.addEventListener("click", () => {
+
+            document.querySelectorAll(".zone")
+                .forEach(item => item.classList.remove("selected"));
+
+            zone.classList.add("selected");
+        });
+    });
+
+    document.querySelectorAll("[data-modal-close]")
+        .forEach(button => {
+            button.addEventListener("click", closeModal);
+        });
 }
 
+/* =========================================================
+   LOGIN
+   ========================================================= */
 
-/* ==========================================
-   RAVI STORE
-========================================== */
+function handleLogin(event) {
 
-const products = {
+    event.preventDefault();
 
-    "RAVI CAPA": {
+    const input = document.getElementById("accessCode");
 
-        name: "RAVI CAPA",
-
-        price: "R$ 9,90",
-
-        device: "Android"
-
-    },
-
-
-    "RAVI ULTRA": {
-
-        name: "RAVI ULTRA",
-
-        price: "R$ 14,90",
-
-        device: "Android / iPhone"
-
-    },
-
-
-    "RAVI EMULATOR": {
-
-        name: "RAVI EMULATOR",
-
-        price: "R$ 12,90",
-
-        device: "Emulador"
-
+    if (!input) {
+        return;
     }
 
-};
+    const enteredCode = input.value.trim().toUpperCase();
 
+    if (!enteredCode) {
+        showToast("Digite seu código de acesso.");
+        return;
+    }
 
-/* COMPRAR */
+    /* ADM */
 
-function buyProduct(productName) {
+    if (enteredCode === ADMIN_CODE) {
 
-    const product =
-        products[productName];
+        currentUser = {
+            type: "ADM",
+            code: ADMIN_CODE
+        };
 
+        saveData("ravi_user", currentUser);
 
-    if (!product) {
+        showToast("👑 Acesso ADM liberado!");
 
-        alert(
-            "Produto não encontrado."
-        );
+        setTimeout(() => {
+            enterPanel();
+        }, 500);
 
         return;
-
     }
 
+    /* PLAYER */
 
-    alert(
+    const found = codes.find(item => {
+        return item.code.toUpperCase() === enteredCode;
+    });
 
-        `🔥 ${product.name}\n\n` +
+    if (!found) {
+        showToast("❌ Código inválido.");
+        return;
+    }
 
-        `💰 Preço: ${product.price}\n` +
+    if (!found.active) {
+        showToast("🔴 Este código está desativado.");
+        return;
+    }
 
-        `📱 Compatibilidade: ${product.device}\n\n` +
+    currentUser = {
+        type: "PLAYER",
+        code: found.code
+    };
 
-        `🛒 Sistema de checkout em desenvolvimento.`
+    saveData("ravi_user", currentUser);
 
-    );
+    showToast("✅ Acesso liberado!");
 
+    setTimeout(() => {
+        enterPanel();
+    }, 500);
 }
 
+/* =========================================================
+   ENTRAR NO PAINEL
+   ========================================================= */
 
-/* ==========================================
-   RAVI HUD
-========================================== */
+function enterPanel() {
 
-function copyHud(code, button) {
+    const loginScreen = document.querySelector(".login-screen");
+    const app = document.querySelector(".app");
 
-    navigator.clipboard.writeText(code)
+    if (loginScreen) {
+        loginScreen.style.display = "none";
+    }
 
-        .then(() => {
+    if (app) {
+        app.style.display = "flex";
+    }
 
-            const message =
-                document.getElementById(
-                    "hudMessage"
-                );
+    updateUserInterface();
+}
 
+/* =========================================================
+   RESTAURAR SESSÃO
+   ========================================================= */
 
-            message.textContent =
-                `✅ Código ${code} copiado!`;
+function restoreSession() {
 
+    const loginScreen = document.querySelector(".login-screen");
+    const app = document.querySelector(".app");
 
-            const originalText =
-                button.textContent;
+    if (!currentUser) {
 
+        if (loginScreen) {
+            loginScreen.style.display = "flex";
+        }
 
-            button.textContent =
-                "✅ COPIADO!";
+        if (app) {
+            app.style.display = "none";
+        }
 
+        return;
+    }
 
-            setTimeout(() => {
+    if (loginScreen) {
+        loginScreen.style.display = "none";
+    }
 
-                button.textContent =
-                    originalText;
+    if (app) {
+        app.style.display = "flex";
+    }
 
-            }, 1800);
+    updateUserInterface();
+}
 
+/* =========================================================
+   INTERFACE DO USUÁRIO
+   ========================================================= */
 
-            setTimeout(() => {
+function updateUserInterface() {
 
-                message.textContent =
-                    "";
+    if (!currentUser) {
+        return;
+    }
 
-            }, 3000);
-
-        })
-
-        .catch(() => {
-
-            alert(
-                "Não foi possível copiar automaticamente."
-            );
-
+    document.querySelectorAll("[data-user-type]")
+        .forEach(element => {
+            element.textContent = currentUser.type;
         });
 
+    document.querySelectorAll("[data-user-code]")
+        .forEach(element => {
+            element.textContent = currentUser.code;
+        });
+
+    /* Elementos exclusivos do ADM */
+
+    document.querySelectorAll("[data-admin-only]")
+        .forEach(element => {
+
+            if (currentUser.type === "ADM") {
+                element.style.display = "";
+            } else {
+                element.style.display = "none";
+            }
+        });
+
+    /* Atualiza produtos */
+
+    renderProducts();
+
+    /* Atualiza códigos */
+
+    if (currentUser.type === "ADM") {
+        renderCodes();
+        renderAdminProducts();
+    }
 }
 
+/* =========================================================
+   LOGOUT
+   ========================================================= */
 
-/* ==========================================
-   INICIALIZAÇÃO
-========================================== */
+function logout() {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+    localStorage.removeItem("ravi_user");
 
-        console.log(
-            "🔥 RAVI SENSI carregado com sucesso!"
+    currentUser = null;
+
+    const app = document.querySelector(".app");
+    const loginScreen = document.querySelector(".login-screen");
+
+    if (app) {
+        app.style.display = "none";
+    }
+
+    if (loginScreen) {
+        loginScreen.style.display = "flex";
+    }
+
+    const input = document.getElementById("accessCode");
+
+    if (input) {
+        input.value = "";
+    }
+
+    showToast("Você saiu do painel.");
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+function toggleSidebar() {
+
+    const sidebar = document.querySelector(".sidebar");
+
+    if (sidebar) {
+        sidebar.classList.toggle("open");
+    }
+}
+
+function closeSidebar() {
+
+    const sidebar = document.querySelector(".sidebar");
+
+    if (sidebar) {
+        sidebar.classList.remove("open");
+    }
+}
+
+/* =========================================================
+   NAVEGAÇÃO
+   ========================================================= */
+
+function showSection(sectionId) {
+
+    document.querySelectorAll("[data-section]")
+        .forEach(section => {
+            section.style.display = "none";
+        });
+
+    const target = document.getElementById(sectionId);
+
+    if (target) {
+        target.style.display = "block";
+        target.classList.add("fade-in");
+    }
+}
+
+/* =========================================================
+   CÓDIGOS ADM
+   ========================================================= */
+
+function toggleCode(index) {
+
+    if (!isAdmin()) {
+        showToast("Acesso restrito ao ADM.");
+        return;
+    }
+
+    if (!codes[index]) {
+        return;
+    }
+
+    codes[index].active = !codes[index].active;
+
+    saveData("ravi_codes", codes);
+
+    renderCodes();
+
+    showToast(
+        codes[index].active
+            ? "Código ativado."
+            : "Código desativado."
+    );
+}
+
+function renderCodes() {
+
+    const container = document.getElementById("codesList");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    codes.forEach((item, index) => {
+
+        const row = document.createElement("div");
+
+        row.className = "code-row";
+
+        row.innerHTML = `
+            <span>${escapeHTML(item.code)}</span>
+
+            <span class="status ${item.active ? "on" : "off"}">
+                <span class="status-dot"></span>
+                ${item.active ? "ATIVO" : "DESATIVADO"}
+            </span>
+
+            <button
+                class="btn ${item.active ? "btn-danger" : "btn-red"}"
+                onclick="toggleCode(${index})"
+            >
+                ${item.active ? "Desativar" : "Ativar"}
+            </button>
+        `;
+
+        container.appendChild(row);
+    });
+}
+
+/* =========================================================
+   GERAR CÓDIGO
+   ========================================================= */
+
+function generateCode() {
+
+    if (!isAdmin()) {
+        showToast("Acesso restrito ao ADM.");
+        return;
+    }
+
+    const newCode =
+        "RAVI-" +
+        randomCharacters(4) +
+        "-" +
+        randomCharacters(4);
+
+    codes.push({
+        code: newCode,
+        active: true
+    });
+
+    saveData("ravi_codes", codes);
+
+    renderCodes();
+
+    showToast("Novo código criado.");
+}
+
+/* =========================================================
+   GERADOR
+   ========================================================= */
+
+function randomCharacters(length) {
+
+    const characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+
+        const index =
+            Math.floor(Math.random() * characters.length);
+
+        result += characters[index];
+    }
+
+    return result;
+}
+
+/* =========================================================
+   PRODUTOS
+   ========================================================= */
+
+function renderProducts() {
+
+    const container =
+        document.getElementById("productsList");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    products
+        .filter(product => product.active)
+        .forEach(product => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "product-card";
+
+            const isAdmin =
+                currentUser &&
+                currentUser.type === "ADM";
+
+            card.innerHTML = `
+                <h3>${escapeHTML(product.name)}</h3>
+
+                <p class="product-description">
+                    Acesso ao pacote ${escapeHTML(product.name)}.
+                </p>
+
+                <div class="price">
+                    R$ ${Number(product.price)
+                        .toFixed(2)
+                        .replace(".", ",")}
+                </div>
+
+                ${
+                    isAdmin
+                    ?
+                    `<button class="btn btn-gray" disabled>
+                        ACESSO ADM
+                    </button>`
+                    :
+                    `<button
+                        class="btn btn-red"
+                        onclick="buyProduct(${product.id})"
+                    >
+                        COMPRAR
+                    </button>`
+                }
+            `;
+
+            container.appendChild(card);
+        });
+}
+
+/* =========================================================
+   COMPRAR
+   ========================================================= */
+
+function buyProduct(productId) {
+
+    const product =
+        products.find(item => item.id === productId);
+
+    if (!product) {
+        return;
+    }
+
+    if (isAdmin()) {
+        showToast("ADM possui acesso gratuito.");
+        return;
+    }
+
+    openModal(
+        "Comprar " + product.name,
+        `
+            <p class="modal-text">
+                Produto selecionado:
+                <strong>${escapeHTML(product.name)}</strong>
+            </p>
+
+            <p class="modal-text" style="margin-top:10px">
+                Valor:
+                <strong>
+                    R$ ${Number(product.price)
+                        .toFixed(2)
+                        .replace(".", ",")}
+                </strong>
+            </p>
+
+            <div style="margin-top:20px">
+                <button
+                    class="btn btn-red"
+                    onclick="demoPurchase(${product.id})"
+                >
+                    CONTINUAR
+                </button>
+
+                <button
+                    class="btn btn-gray"
+                    onclick="closeModal()"
+                >
+                    CANCELAR
+                </button>
+            </div>
+        `
+    );
+}
+
+/* =========================================================
+   COMPRA DEMONSTRAÇÃO
+   ========================================================= */
+
+function demoPurchase(productId) {
+
+    const product =
+        products.find(item => item.id === productId);
+
+    if (!product) {
+        return;
+    }
+
+    closeModal();
+
+    showToast(
+        "Compra em modo demonstração."
+    );
+}
+
+/* =========================================================
+   PRODUTOS ADM
+   ========================================================= */
+
+function renderAdminProducts() {
+
+    const container =
+        document.getElementById("adminProductsList");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    products.forEach((product, index) => {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "card";
+
+        item.style.marginBottom = "12px";
+
+        item.innerHTML = `
+            <div style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:12px;
+                flex-wrap:wrap;
+            ">
+
+                <div>
+                    <strong>
+                        ${escapeHTML(product.name)}
+                    </strong>
+
+                    <div class="text-muted">
+                        R$ ${Number(product.price)
+                            .toFixed(2)
+                            .replace(".", ",")}
+                    </div>
+                </div>
+
+                <div style="
+                    display:flex;
+                    gap:8px;
+                    flex-wrap:wrap;
+                ">
+
+                    <button
+                        class="btn ${
+                            product.active
+                            ? "btn-danger"
+                            : "btn-red"
+                        }"
+                        onclick="toggleProduct(${index})"
+                    >
+                        ${
+                            product.active
+                            ? "Desativar"
+                            : "Ativar"
+                        }
+                    </button>
+
+                    <button
+                        class="btn btn-gray"
+                        onclick="deleteProduct(${index})"
+                    >
+                        Excluir
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        container.appendChild(item);
+    });
+}
+
+/* =========================================================
+   ATIVAR / DESATIVAR PRODUTO
+   ========================================================= */
+
+function toggleProduct(index) {
+
+    if (!isAdmin()) {
+        showToast("Acesso restrito ao ADM.");
+        return;
+    }
+
+    if (!products[index]) {
+        return;
+    }
+
+    products[index].active =
+        !products[index].active;
+
+    saveData("ravi_products", products);
+
+    renderProducts();
+    renderAdminProducts();
+
+    showToast(
+        products[index].active
+            ? "Produto ativado."
+            : "Produto desativado."
+    );
+}
+
+/* =========================================================
+   EXCLUIR PRODUTO
+   ========================================================= */
+
+function deleteProduct(index) {
+
+    if (!isAdmin()) {
+        showToast("Acesso restrito ao ADM.");
+        return;
+    }
+
+    if (!products[index]) {
+        return;
+    }
+
+    products.splice(index, 1);
+
+    saveData("ravi_products", products);
+
+    renderProducts();
+    renderAdminProducts();
+
+    showToast("Produto removido.");
+}
+
+/* =========================================================
+   ADICIONAR PRODUTO
+   ========================================================= */
+
+function addProduct(name, price) {
+
+    if (!isAdmin()) {
+        showToast("Acesso restrito ao ADM.");
+        return;
+    }
+
+    const cleanName =
+        String(name || "").trim();
+
+    const cleanPrice =
+        Number(price);
+
+    if (!cleanName) {
+        showToast("Digite o nome do produto.");
+        return;
+    }
+
+    if (!Number.isFinite(cleanPrice) || cleanPrice < 0) {
+        showToast("Digite um preço válido.");
+        return;
+    }
+
+    products.push({
+        id: Date.now(),
+        name: cleanName,
+        price: cleanPrice,
+        active: true
+    });
+
+    saveData("ravi_products", products);
+
+    renderProducts();
+    renderAdminProducts();
+
+    showToast("Produto adicionado.");
+}
+
+/* =========================================================
+   SLIDERS
+   ========================================================= */
+
+function setupRanges() {
+
+    document.querySelectorAll(
+        'input[type="range"]'
+    ).forEach(range => {
+
+        updateRangeValue(range);
+
+        range.addEventListener("input", () => {
+            updateRangeValue(range);
+        });
+    });
+}
+
+function updateRangeValue(range) {
+
+    const output =
+        document.querySelector(
+            `[data-range-value="${range.id}"]`
         );
 
+    if (output) {
+        output.textContent = range.value;
     }
-);
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+function openModal(title, content) {
+
+    const modal =
+        document.getElementById("modal");
+
+    if (!modal) {
+        return;
+    }
+
+    const titleElement =
+        modal.querySelector(".modal-title");
+
+    const contentElement =
+        modal.querySelector(".modal-content");
+
+    if (titleElement) {
+        titleElement.textContent = title;
+    }
+
+    if (contentElement) {
+        contentElement.innerHTML = content;
+    }
+
+    modal.classList.add("show");
+}
+
+function closeModal() {
+
+    const modal =
+        document.getElementById("modal");
+
+    if (modal) {
+        modal.classList.remove("show");
+    }
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(message) {
+
+    const oldToast =
+        document.querySelector(".toast");
+
+    if (oldToast) {
+        oldToast.remove();
+    }
+
+    const toast =
+        document.createElement("div");
+
+    toast.className = "toast";
+
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+
+        setTimeout(() => {
+            toast.remove();
+        }, 250);
+
+    }, 2500);
+}
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+function isAdmin() {
+
+    return currentUser &&
+        currentUser.type === "ADM";
+}
+
+/* =========================================================
+   SEGURANÇA BÁSICA DE HTML
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+/* =========================================================
+   FECHAR MODAL CLICANDO FORA
+   ========================================================= */
+
+window.addEventListener("click", event => {
+
+    const modal =
+        document.getElementById("modal");
+
+    if (
+        modal &&
+        event.target === modal
+    ) {
+        closeModal();
+    }
+});
+
+/* =========================================================
+   ATUALIZAÇÃO ENTRE ABAS
+   ========================================================= */
+
+window.addEventListener("storage", event => {
+
+    if (event.key === "ravi_codes") {
+
+        codes =
+            loadData(
+                "ravi_codes",
+                codes
+            );
+
+        if (isAdmin()) {
+            renderCodes();
+        }
+    }
+
+    if (event.key === "ravi_products") {
+
+        products =
+            loadData(
+                "ravi_products",
+                products
+            );
+
+        renderProducts();
+
+        if (isAdmin()) {
+            renderAdminProducts();
+        }
+    }
+});
+
+/* =========================================================
+   EXPOR FUNÇÕES PARA O HTML
+   ========================================================= */
+
+window.logout = logout;
+window.toggleCode = toggleCode;
+window.generateCode = generateCode;
+window.buyProduct = buyProduct;
+window.demoPurchase = demoPurchase;
+window.toggleProduct = toggleProduct;
+window.deleteProduct = deleteProduct;
+window.addProduct = addProduct;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.showSection = showSection;
+window.toggleSidebar = toggleSidebar;
+```
