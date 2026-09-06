@@ -1,316 +1,921 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RAVI SENSI</title>
+```
+<meta name="description"
+    content="RAVI SENSI - Sensibilidade, HUDs e otimização para Free Fire.">
 
-    <link rel="stylesheet" href="style.css">
+<title>RAVI SENSI • Free Fire</title>
+
+<link rel="stylesheet" href="style.css">
+```
+
 </head>
 
 <body>
 
-    <header>
-        <div class="logo">RAVI<span>SENSI</span></div>
+<div class="background-glow"></div>
 
-        <nav>
-            <a href="#inicio">Início</a>
-            <a href="#gerador">Gerador</a>
-            <a href="#otimizacao">Otimização</a>
-            <a href="#sobre">Sobre</a>
-        </nav>
-    </header>
+<!-- ================= HEADER ================= -->
 
+<header class="header">
 
-    <main>
+```
+<div class="logo">
+    RAVI<span>SENSI</span>
+</div>
 
-        <!-- HERO -->
+<nav class="nav">
+    <a href="#inicio">Início</a>
+    <a href="#gerador">Gerador</a>
+    <a href="#loja">Loja</a>
+    <a href="#hud">HUD</a>
+    <a href="#boost">Boost</a>
+    <a href="#sobre">Sobre</a>
+</nav>
+```
 
-        <section class="hero" id="inicio">
+</header>
 
-            <div class="hero-content">
+<!-- ================= HERO ================= -->
 
-                <p class="tag">🎯 CONFIGURAÇÃO FREE FIRE</p>
+<main>
 
-                <h1>
-                    Encontre sua
-                    <span>melhor SENSI.</span>
-                </h1>
+<section class="hero" id="inicio">
 
-                <p class="description">
-                    Gere uma configuração personalizada de sensibilidade
-                    de forma rápida e simples.
-                </p>
+```
+<div class="hero-content">
 
-                <a href="#gerador" class="button">
-                    GERAR MINHA SENSI
-                </a>
+    <span class="hero-badge">
+        🎯 RAVI SENSI • FREE FIRE
+    </span>
 
-            </div>
+    <h1>
+        DOMINE SUA<br>
+        <span>SENSIBILIDADE.</span>
+    </h1>
 
-        </section>
+    <p>
+        Encontre a sensibilidade ideal para seu estilo de jogo,
+        configure seu HUD e melhore sua experiência no Free Fire.
+    </p>
 
+    <div class="hero-buttons">
 
-        <!-- GERADOR -->
+        <a href="#gerador" class="btn primary">
+            ⚡ GERAR MINHA SENSI
+        </a>
 
-        <section class="generator" id="gerador">
+        <a href="#boost" class="btn secondary">
+            🚀 RAVI BOOST
+        </a>
 
-            <div class="section-title">
-                <p>RAVI SENSI</p>
-                <h2>GERADOR DE SENSIBILIDADE</h2>
-                <span>Configure suas preferências abaixo.</span>
-            </div>
+    </div>
 
+    <div class="hero-stats">
 
-            <div class="generator-box">
+        <div>
+            <strong>100%</strong>
+            <span>CONFIGURÁVEL</span>
+        </div>
 
-                <div class="input-group">
+        <div>
+            <strong>6+</strong>
+            <span>HUDs</span>
+        </div>
 
-                    <label for="device">Seu dispositivo</label>
+        <div>
+            <strong>PC</strong>
+            <span>ANDROID</span>
+        </div>
 
-                    <select id="device">
-                        <option value="android">Android</option>
-                        <option value="iphone">iPhone</option>
-                        <option value="emulador">Emulador</option>
-                    </select>
+    </div>
 
-                </div>
+</div>
+```
 
+</section>
 
-                <div class="input-group">
+<!-- ================= DESTAQUES ================= -->
 
-                    <label for="style">Estilo de jogo</label>
+<section class="highlights">
 
-                    <select id="style">
+```
+<div class="section-heading">
 
-                        <option value="precisao">
-                            Precisão
-                        </option>
+    <span class="eyebrow">
+        ⚡ RECURSOS
+    </span>
 
-                        <option value="capa">
-                            Capa
-                        </option>
+    <h2>
+        TUDO PARA <span>JOGAR MELHOR</span>
+    </h2>
 
-                        <option value="equilibrada">
-                            Equilibrada
-                        </option>
+    <p>
+        Ferramentas criadas para facilitar sua configuração.
+    </p>
 
-                        <option value="rapida">
-                            Rápida
-                        </option>
+</div>
 
-                    </select>
 
-                </div>
+<div class="highlight-grid">
 
+    <div class="highlight-card">
 
-                <button class="generate-button" onclick="generateSensi()">
-                    ⚡ GERAR SENSI
-                </button>
+        <div class="card-icon">
+            🎯
+        </div>
 
-
-                <div class="result" id="result">
-
-                    <h3>SUA CONFIGURAÇÃO</h3>
-
-                    <div class="values">
-
-                        <div class="value">
-                            <span>Geral</span>
-                            <strong id="geral">---</strong>
-                        </div>
-
-                        <div class="value">
-                            <span>Red Dot</span>
-                            <strong id="redDot">---</strong>
-                        </div>
-
-                        <div class="value">
-                            <span>Mira 2X</span>
-                            <strong id="mira2x">---</strong>
-                        </div>
-
-                        <div class="value">
-                            <span>Mira 4X</span>
-                            <strong id="mira4x">---</strong>
-                        </div>
-
-                        <div class="value">
-                            <span>AWM</span>
-                            <strong id="awm">---</strong>
-                        </div>
-
-                        <div class="value">
-                            <span>DPI</span>
-                            <strong id="dpi">---</strong>
-                        </div>
-
-                        <div class="value">
-                            <span>Botão</span>
-                            <strong id="botao">---</strong>
-                        </div>
-
-                    </div>
-
-
-                    <button class="copy-button" onclick="copySensi()">
-                        📋 COPIAR CONFIGURAÇÃO
-                    </button>
-
-                    <p id="message"></p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- OTIMIZAÇÃO -->
-
-        <section class="optimization" id="otimizacao">
-
-            <div class="section-title">
-
-                <p>RAVI BOOST</p>
-
-                <h2>OTIMIZAÇÃO</h2>
-
-                <span>
-                    Ajuste suas configurações para buscar mais estabilidade e desempenho.
-                </span>
-
-            </div>
-
-
-            <div class="optimization-box">
-
-
-                <div class="input-group">
-
-                    <label for="optimizationDevice">
-                        📱 Seu dispositivo
-                    </label>
-
-                    <select id="optimizationDevice">
-
-                        <option value="android">
-                            Android
-                        </option>
-
-                        <option value="iphone">
-                            iPhone
-                        </option>
-
-                        <option value="emulador">
-                            Emulador
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <button class="boost-button" onclick="optimizeGame()">
-                    ⚡ OTIMIZAR AGORA
-                </button>
-
-
-                <div class="optimization-result" id="optimizationResult">
-
-                    <h3>🚀 RAVI BOOST ATIVADO</h3>
-
-
-                    <div class="optimization-grid">
-
-                        <div class="optimization-item">
-                            <span>🎮 FPS</span>
-                            <strong id="boostFps">---</strong>
-                        </div>
-
-
-                        <div class="optimization-item">
-                            <span>🎨 Gráficos</span>
-                            <strong id="boostGraphics">---</strong>
-                        </div>
-
-
-                        <div class="optimization-item">
-                            <span>🌑 Sombras</span>
-                            <strong id="boostShadows">---</strong>
-                        </div>
-
-
-                        <div class="optimization-item">
-                            <span>✨ Efeitos</span>
-                            <strong id="boostEffects">---</strong>
-                        </div>
-
-
-                        <div class="optimization-item">
-                            <span>⚙️ Desempenho</span>
-                            <strong id="boostPerformance">---</strong>
-                        </div>
-
-
-                        <div class="optimization-item">
-                            <span>📡 Conexão</span>
-                            <strong id="boostConnection">---</strong>
-                        </div>
-
-                    </div>
-
-
-                    <div class="boost-tips">
-
-                        <h4>💡 DICAS RAVI BOOST</h4>
-
-                        <p id="boostTip">
-                            ---
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- SOBRE -->
-
-        <section class="about" id="sobre">
-
-            <div class="section-title">
-
-                <p>SOBRE</p>
-
-                <h2>RAVI SENSI</h2>
-
-                <span>
-                    Um projeto criado para gerar configurações
-                    personalizadas de sensibilidade e otimização.
-                </span>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <footer>
+        <h3>
+            SENSIBILIDADE
+        </h3>
 
         <p>
-            © 2026 RAVI SENSI — Todos os direitos reservados.
+            Gere configurações de sensibilidade de acordo
+            com seu dispositivo e estilo.
         </p>
 
-    </footer>
+    </div>
 
 
-    <script src="script.js"></script>
+    <div class="highlight-card">
+
+        <div class="card-icon">
+            🎮
+        </div>
+
+        <h3>
+            HUDs
+        </h3>
+
+        <p>
+            Encontre códigos de HUD para diferentes estilos
+            de controle.
+        </p>
+
+    </div>
+
+
+    <div class="highlight-card">
+
+        <div class="card-icon">
+            🚀
+        </div>
+
+        <h3>
+            BOOST
+        </h3>
+
+        <p>
+            Recomendações para melhorar estabilidade,
+            gráficos e desempenho.
+        </p>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- ================= GERADOR ================= -->
+
+<section class="generator-section" id="gerador">
+
+```
+<div class="section-heading">
+
+    <span class="eyebrow">
+        🎯 RAVI GENERATOR
+    </span>
+
+    <h2>
+        GERE SUA <span>SENSI</span>
+    </h2>
+
+    <p>
+        Escolha seu dispositivo e seu estilo de jogo.
+    </p>
+
+</div>
+
+
+<div class="generator-box">
+
+    <div class="generator-form">
+
+        <label for="device">
+            📱 DISPOSITIVO
+        </label>
+
+        <select id="device">
+
+            <option value="android">
+                Android
+            </option>
+
+            <option value="iphone">
+                iPhone
+            </option>
+
+            <option value="emulator">
+                Emulador
+            </option>
+
+        </select>
+
+
+        <label for="style">
+            🎯 ESTILO DE JOGO
+        </label>
+
+        <select id="style">
+
+            <option value="precisao">
+                Precisão
+            </option>
+
+            <option value="capa">
+                Capa
+            </option>
+
+            <option value="equilibrada">
+                Equilibrada
+            </option>
+
+            <option value="rapida">
+                Rápida
+            </option>
+
+        </select>
+
+
+        <button
+            class="btn primary"
+            onclick="generateSensi()">
+
+            ⚡ GERAR SENSIBILIDADE
+
+        </button>
+
+    </div>
+
+
+    <div class="result-box" id="result">
+
+        <div class="result-header">
+
+            <span>
+                RESULTADO
+            </span>
+
+            <span>
+                RAVI SENSI
+            </span>
+
+        </div>
+
+
+        <div class="result-grid">
+
+            <div>
+                <span>Geral</span>
+                <strong id="geral">--</strong>
+            </div>
+
+            <div>
+                <span>Ponto Vermelho</span>
+                <strong id="redDot">--</strong>
+            </div>
+
+            <div>
+                <span>Mira 2x</span>
+                <strong id="mira2x">--</strong>
+            </div>
+
+            <div>
+                <span>Mira 4x</span>
+                <strong id="mira4x">--</strong>
+            </div>
+
+            <div>
+                <span>AWM</span>
+                <strong id="awm">--</strong>
+            </div>
+
+            <div>
+                <span>DPI</span>
+                <strong id="dpi">--</strong>
+            </div>
+
+            <div>
+                <span>Botão de tiro</span>
+                <strong id="botao">--</strong>
+            </div>
+
+        </div>
+
+
+        <p id="message"></p>
+
+
+        <button
+            class="copy-btn"
+            onclick="copySensi()">
+
+            📋 COPIAR SENSI
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- ================= LOJA ================= -->
+
+<section class="store-section" id="loja">
+
+```
+<div class="section-heading">
+
+    <span class="eyebrow">
+        🛒 RAVI STORE
+    </span>
+
+    <h2>
+        CONFIGURAÇÕES <span>PREMIUM</span>
+    </h2>
+
+    <p>
+        Escolha uma configuração para seu dispositivo.
+    </p>
+
+</div>
+
+
+<div class="products">
+
+
+    <div class="product-card">
+
+        <span class="product-tag">
+            ANDROID
+        </span>
+
+        <h3>
+            RAVI CAPA
+        </h3>
+
+        <p>
+            Configuração focada em capa e resposta rápida.
+        </p>
+
+        <div class="price">
+            R$ 9,90
+        </div>
+
+        <button onclick="buyProduct('RAVI CAPA')">
+            COMPRAR
+        </button>
+
+    </div>
+
+
+    <div class="product-card featured">
+
+        <span class="product-tag">
+            MAIS POPULAR
+        </span>
+
+        <h3>
+            RAVI ULTRA
+        </h3>
+
+        <p>
+            Configuração equilibrada para Android e iPhone.
+        </p>
+
+        <div class="price">
+            R$ 14,90
+        </div>
+
+        <button onclick="buyProduct('RAVI ULTRA')">
+            COMPRAR AGORA
+        </button>
+
+    </div>
+
+
+    <div class="product-card">
+
+        <span class="product-tag">
+            EMULADOR
+        </span>
+
+        <h3>
+            RAVI EMULATOR
+        </h3>
+
+        <p>
+            Configuração pensada para jogar no PC.
+        </p>
+
+        <div class="price">
+            R$ 12,90
+        </div>
+
+        <button onclick="buyProduct('RAVI EMULATOR')">
+            COMPRAR
+        </button>
+
+    </div>
+
+</div>
+
+
+<p class="store-warning">
+
+    ⚠️ As configurações são recomendações.
+    Os resultados podem variar de acordo com dispositivo,
+    DPI, FPS e estilo de jogo.
+
+</p>
+```
+
+</section>
+
+<!-- ================= HUD ================= -->
+
+<section class="hud-section" id="hud">
+
+```
+<div class="section-heading">
+
+    <span class="eyebrow">
+        🎮 RAVI HUD
+    </span>
+
+    <h2>
+        HUDs <span>PRONTOS</span>
+    </h2>
+
+    <p>
+        Escolha seu estilo e copie o código do HUD.
+    </p>
+
+</div>
+
+
+<div class="hud-grid">
+
+
+    <div class="hud-card">
+
+        <div class="hud-icon">
+            🖐️
+        </div>
+
+        <span class="hud-badge">
+            MOBILE
+        </span>
+
+        <h3>
+            HUD 2 DEDOS
+        </h3>
+
+        <p>
+            Configuração para jogar com 2 dedos.
+        </p>
+
+        <div class="hud-code">
+            #FFHUDT6O3jjHQi0FPo7eM
+        </div>
+
+        <button onclick="copyHud('#FFHUDT6O3jjHQi0FPo7eM', this)">
+            📋 COPIAR HUD
+        </button>
+
+    </div>
+
+
+    <div class="hud-card">
+
+        <div class="hud-icon">
+            ✋
+        </div>
+
+        <span class="hud-badge">
+            MOBILE
+        </span>
+
+        <h3>
+            HUD 3 DEDOS
+        </h3>
+
+        <p>
+            Mais controle para movimentação e mira.
+        </p>
+
+        <div class="hud-code">
+            #FFHUDT6O3jjRP1K5Po7eO
+        </div>
+
+        <button onclick="copyHud('#FFHUDT6O3jjRP1K5Po7eO', this)">
+            📋 COPIAR HUD
+        </button>
+
+    </div>
+
+
+    <div class="hud-card">
+
+        <div class="hud-icon">
+            🔥
+        </div>
+
+        <span class="hud-badge">
+            MOBILE
+        </span>
+
+        <h3>
+            HUD 4 DEDOS
+        </h3>
+
+        <p>
+            Para quem prefere mais controles na tela.
+        </p>
+
+        <div class="hud-code">
+            #FFHUDT6O3jg3LCldPo7eP
+        </div>
+
+        <button onclick="copyHud('#FFHUDT6O3jg3LCldPo7eP', this)">
+            📋 COPIAR HUD
+        </button>
+
+    </div>
+
+
+    <div class="hud-card">
+
+        <div class="hud-icon">
+            🖥️
+        </div>
+
+        <span class="hud-badge">
+            EMULADOR
+        </span>
+
+        <h3>
+            HUD EMULADOR
+        </h3>
+
+        <p>
+            Configuração para jogar Free Fire no PC.
+        </p>
+
+        <div class="hud-code">
+            #FFHUDT6O3jHNxESpPo7eP
+        </div>
+
+        <button onclick="copyHud('#FFHUDT6O3jHNxESpPo7eP', this)">
+            📋 COPIAR HUD
+        </button>
+
+    </div>
+
+
+    <div class="hud-card">
+
+        <div class="hud-icon">
+            ⚡
+        </div>
+
+        <span class="hud-badge">
+            EMULADOR
+        </span>
+
+        <h3>
+            MEU HUD
+        </h3>
+
+        <p>
+            HUD pessoal para jogar no emulador.
+        </p>
+
+        <div class="hud-code">
+            #FFHUDT6O3j3q5W8JPo7eM
+        </div>
+
+        <button onclick="copyHud('#FFHUDT6O3j3q5W8JPo7eM', this)">
+            📋 COPIAR HUD
+        </button>
+
+    </div>
+
+
+    <div class="hud-card">
+
+        <div class="hud-icon">
+            🎯
+        </div>
+
+        <span class="hud-badge">
+            EMULADOR
+        </span>
+
+        <h3>
+            HUD EMULADOR 2
+        </h3>
+
+        <p>
+            Outra opção de HUD para jogar no PC.
+        </p>
+
+        <div class="hud-code">
+            #FFHUDT6O3jnDVQDNPo7eP
+        </div>
+
+        <button onclick="copyHud('#FFHUDT6O3jnDVQDNPo7eP', this)">
+            📋 COPIAR HUD
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="hud-warning">
+
+    ⚠️ Os códigos podem mudar ou deixar de funcionar
+    após atualizações do Free Fire.
+
+</div>
+```
+
+</section>
+
+<!-- ================= PAINEL DE OTIMIZAÇÃO ================= -->
+
+<section class="boost-section" id="boost">
+
+```
+<div class="section-heading">
+
+    <span class="eyebrow">
+        🚀 RAVI BOOST
+    </span>
+
+    <h2>
+        PAINEL DE <span>OTIMIZAÇÃO</span>
+    </h2>
+
+    <p>
+        Central de recomendações para desempenho e estabilidade.
+    </p>
+
+</div>
+
+
+<div class="boost-box">
+
+
+    <div class="boost-panel-header">
+
+        <div>
+
+            <span class="boost-status">
+                ● SISTEMA ONLINE
+            </span>
+
+            <h3>
+                RAVI PERFORMANCE PANEL
+            </h3>
+
+            <p>
+                Central de otimização
+            </p>
+
+        </div>
+
+
+        <div class="boost-icon">
+            ⚡
+        </div>
+
+    </div>
+
+
+    <div class="boost-device">
+
+        <label for="optimizationDevice">
+            🖥️ SELECIONE SEU DISPOSITIVO
+        </label>
+
+        <select id="optimizationDevice">
+
+            <option value="android">
+                📱 Android
+            </option>
+
+            <option value="iphone">
+                🍎 iPhone
+            </option>
+
+            <option value="emulator">
+                🖥️ Emulador
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="boost-options">
+
+
+        <div class="boost-option">
+
+            <span>🎯</span>
+
+            <div>
+                <strong>FPS</strong>
+                <small>Priorizar estabilidade</small>
+            </div>
+
+        </div>
+
+
+        <div class="boost-option">
+
+            <span>🎨</span>
+
+            <div>
+                <strong>GRÁFICOS</strong>
+                <small>Equilibrar qualidade</small>
+            </div>
+
+        </div>
+
+
+        <div class="boost-option">
+
+            <span>🌑</span>
+
+            <div>
+                <strong>SOMBRAS</strong>
+                <small>Reduzir impacto</small>
+            </div>
+
+        </div>
+
+
+        <div class="boost-option">
+
+            <span>✨</span>
+
+            <div>
+                <strong>EFEITOS</strong>
+                <small>Melhorar desempenho</small>
+            </div>
+
+        </div>
+
+
+        <div class="boost-option">
+
+            <span>🚀</span>
+
+            <div>
+                <strong>PERFORMANCE</strong>
+                <small>Otimização geral</small>
+            </div>
+
+        </div>
+
+
+        <div class="boost-option">
+
+            <span>🌐</span>
+
+            <div>
+                <strong>CONEXÃO</strong>
+                <small>Estabilidade de rede</small>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="btn primary boost-main-button"
+        onclick="optimizeGame()">
+
+        🚀 OTIMIZAR AGORA
+
+    </button>
+
+
+    <div class="optimization-result" id="optimizationResult">
+
+        <div>
+            <span>FPS</span>
+            <strong id="boostFps">--</strong>
+        </div>
+
+        <div>
+            <span>Gráficos</span>
+            <strong id="boostGraphics">--</strong>
+        </div>
+
+        <div>
+            <span>Sombras</span>
+            <strong id="boostShadows">--</strong>
+        </div>
+
+        <div>
+            <span>Efeitos</span>
+            <strong id="boostEffects">--</strong>
+        </div>
+
+        <div>
+            <span>Desempenho</span>
+            <strong id="boostPerformance">--</strong>
+        </div>
+
+        <div>
+            <span>Conexão</span>
+            <strong id="boostConnection">--</strong>
+        </div>
+
+    </div>
+
+
+    <p id="boostTip"></p>
+
+</div>
+```
+
+</section>
+
+<!-- ================= SOBRE ================= -->
+
+<section class="about-section" id="sobre">
+
+```
+<div class="section-heading">
+
+    <span class="eyebrow">
+        🔥 SOBRE
+    </span>
+
+    <h2>
+        RAVI <span>SENSI</span>
+    </h2>
+
+    <p>
+        Um projeto focado em reunir ferramentas,
+        configurações e recomendações para jogadores
+        de Free Fire.
+    </p>
+
+</div>
+```
+
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+```
+<div class="logo">
+    RAVI<span>SENSI</span>
+</div>
+
+<p>
+    © 2026 RAVI SENSI • Free Fire
+</p>
+
+<p>
+    Configurações são recomendações e não garantem resultados.
+</p>
+```
+
+</footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>
