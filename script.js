@@ -118,7 +118,12 @@ const sensis = {
 };
 
 
+/* ========================= */
+/* GERAR SENSI */
+/* ========================= */
+
 function generateSensi() {
+
     const dispositivo = document.getElementById("device").value;
     const estilo = document.getElementById("style").value;
 
@@ -139,7 +144,12 @@ function generateSensi() {
 }
 
 
+/* ========================= */
+/* COPIAR SENSI */
+/* ========================= */
+
 function copySensi() {
+
     const texto =
         "🔥 RAVI SENSI\n\n" +
         "Geral: " + document.getElementById("geral").textContent + "\n" +
@@ -152,11 +162,86 @@ function copySensi() {
 
     navigator.clipboard.writeText(texto)
         .then(function() {
+
             document.getElementById("message").textContent =
                 "Configuração copiada!";
+
         })
         .catch(function() {
+
             document.getElementById("message").textContent =
                 "Não foi possível copiar.";
+
         });
+}
+
+
+/* ========================= */
+/* RAVI BOOST */
+/* ========================= */
+
+function optimizeGame() {
+
+    const dispositivo =
+        document.getElementById("optimizationDevice").value;
+
+    const configs = {
+
+        android: {
+            fps: "Alto",
+            graphics: "Suave",
+            shadows: "Desativadas",
+            effects: "Baixo",
+            performance: "Alto desempenho",
+            connection: "Estável",
+            tip: "Feche aplicativos pesados em segundo plano e mantenha espaço livre no aparelho. Isso pode ajudar na estabilidade."
+        },
+
+        iphone: {
+            fps: "Alto",
+            graphics: "Suave",
+            shadows: "Desativadas",
+            effects: "Baixo",
+            performance: "Desempenho",
+            connection: "Estável",
+            tip: "Feche aplicativos desnecessários e mantenha o sistema atualizado. Evite jogar enquanto o aparelho estiver muito quente."
+        },
+
+        emulador: {
+            fps: "Alto",
+            graphics: "Suave",
+            shadows: "Desativadas",
+            effects: "Baixo",
+            performance: "Alto desempenho",
+            connection: "Estável",
+            tip: "Feche programas pesados no PC e deixe recursos suficientes para o emulador. Evite downloads durante a partida."
+        }
+
+    };
+
+    const config = configs[dispositivo];
+
+    document.getElementById("boostFps").textContent =
+        config.fps;
+
+    document.getElementById("boostGraphics").textContent =
+        config.graphics;
+
+    document.getElementById("boostShadows").textContent =
+        config.shadows;
+
+    document.getElementById("boostEffects").textContent =
+        config.effects;
+
+    document.getElementById("boostPerformance").textContent =
+        config.performance;
+
+    document.getElementById("boostConnection").textContent =
+        config.connection;
+
+    document.getElementById("boostTip").textContent =
+        config.tip;
+
+    document.getElementById("optimizationResult").style.display =
+        "block";
 }
