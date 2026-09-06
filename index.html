@@ -1,714 +1,3090 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RAVI FF PANEL</title>
 
-    <title>RAVI SENSI - Sensibilidade para Free Fire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <meta name="description" content="RAVI SENSI - Gerador de sensibilidade, HUD e configurações para Free Fire.">
-    <meta name="keywords" content="RAVI SENSI, sensibilidade Free Fire, sensi Free Fire, HUD Free Fire">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="RAVI SENSI">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    <meta name="google-site-verification" content="rXlVNnHR6OE6WZ1jU_MbU2qEKzFWz6unEdEViIhgX4E">
+:root{
+    --bg:#050505;
+    --panel:#0b0b0b;
+    --panel2:#101010;
+    --border:#242424;
+    --text:#f2f2f2;
+    --muted:#8b8b8b;
+    --green:#8aff00;
+    --green2:#b7ff65;
+    --red:#ff3d3d;
+    --yellow:#ffc400;
+    --blue:#4da6ff;
+}
 
-    <link rel="stylesheet" href="style.css">
+body{
+    background:
+        radial-gradient(circle at 50% -20%,#252525 0%,#090909 38%,#030303 80%);
+    color:var(--text);
+    font-family:Inter,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+canvas#rain{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    opacity:.20;
+    z-index:0;
+}
+
+/* LOGIN */
+
+#loginScreen{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login-box{
+    width:min(440px,100%);
+    padding:38px;
+    background:rgba(10,10,10,.86);
+    border:1px solid #292929;
+    border-radius:24px;
+    box-shadow:
+        0 0 80px rgba(255,255,255,.04),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    backdrop-filter:blur(20px);
+    text-align:center;
+}
+
+.logo{
+    width:76px;
+    height:76px;
+    margin:0 auto 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #3b3b3b;
+    border-radius:20px;
+    background:linear-gradient(145deg,#181818,#080808);
+    font-family:Orbitron;
+    font-weight:900;
+    font-size:23px;
+    color:var(--green);
+    box-shadow:0 0 30px rgba(138,255,0,.08);
+}
+
+.login-box h1{
+    font-family:Orbitron;
+    font-size:27px;
+    letter-spacing:2px;
+}
+
+.login-box p{
+    color:var(--muted);
+    margin:10px 0 27px;
+    font-size:14px;
+}
+
+.input-wrap{
+    position:relative;
+}
+
+.input-wrap input{
+    width:100%;
+    padding:16px 18px;
+    background:#080808;
+    border:1px solid #303030;
+    border-radius:13px;
+    color:white;
+    outline:none;
+    font-size:15px;
+    transition:.2s;
+}
+
+.input-wrap input:focus{
+    border-color:#666;
+    box-shadow:0 0 0 3px rgba(255,255,255,.03);
+}
+
+.login-btn{
+    width:100%;
+    margin-top:13px;
+    padding:16px;
+    border:0;
+    border-radius:13px;
+    background:#e9e9e9;
+    color:#050505;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+    background:white;
+}
+
+.login-msg{
+    min-height:20px;
+    margin-top:13px;
+    font-size:13px;
+}
+
+.login-msg.error{
+    color:var(--red);
+}
+
+.login-msg.success{
+    color:var(--green);
+}
+
+/* APP */
+
+#app{
+    display:none;
+    min-height:100vh;
+    position:relative;
+    z-index:1;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:rgba(6,6,6,.91);
+    border-right:1px solid #1d1d1d;
+    padding:23px 15px;
+    z-index:5;
+    backdrop-filter:blur(18px);
+}
+
+.brand{
+    padding:7px 12px 25px;
+    border-bottom:1px solid #1e1e1e;
+    margin-bottom:18px;
+}
+
+.brand-name{
+    font-family:Orbitron;
+    font-size:18px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.brand-sub{
+    color:#666;
+    font-size:11px;
+    margin-top:5px;
+    letter-spacing:1px;
+}
+
+.nav-title{
+    color:#4e4e4e;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    padding:10px 12px;
+}
+
+.nav-btn{
+    width:100%;
+    border:1px solid transparent;
+    background:transparent;
+    color:#888;
+    padding:12px;
+    border-radius:10px;
+    text-align:left;
+    cursor:pointer;
+    margin-bottom:5px;
+    font-size:13px;
+    transition:.2s;
+}
+
+.nav-btn:hover{
+    color:white;
+    background:#111;
+}
+
+.nav-btn.active{
+    color:white;
+    background:#151515;
+    border-color:#282828;
+    box-shadow:inset 3px 0 var(--green);
+}
+
+.nav-btn .icon{
+    display:inline-block;
+    width:24px;
+}
+
+.logout{
+    position:absolute;
+    left:15px;
+    right:15px;
+    bottom:18px;
+    color:#777;
+}
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+}
+
+.page-title{
+    font-family:Orbitron;
+    font-size:23px;
+}
+
+.page-sub{
+    color:#666;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.user-badge{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    background:#0d0d0d;
+    border:1px solid #242424;
+    padding:9px 13px;
+    border-radius:12px;
+    font-size:12px;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+}
+
+/* SECTIONS */
+
+.section{
+    display:none;
+    animation:fade .25s ease;
+}
+
+.section.active{
+    display:block;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* CARDS */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.card{
+    background:rgba(12,12,12,.88);
+    border:1px solid #222;
+    border-radius:17px;
+    padding:20px;
+    box-shadow:inset 0 1px rgba(255,255,255,.025);
+}
+
+.card:hover{
+    border-color:#343434;
+}
+
+.stat-label{
+    color:#777;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.stat-value{
+    margin-top:10px;
+    font-family:Orbitron;
+    font-size:22px;
+}
+
+.stat-green{
+    color:var(--green);
+}
+
+.hero{
+    margin-bottom:18px;
+    padding:30px;
+    border-radius:20px;
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.01));
+    border:1px solid #242424;
+}
+
+.hero h2{
+    font-family:Orbitron;
+    font-size:27px;
+    margin-bottom:9px;
+}
+
+.hero p{
+    color:#888;
+    max-width:680px;
+    line-height:1.6;
+}
+
+/* AIM */
+
+.aim-box{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:18px;
+}
+
+.aim-preview{
+    min-height:450px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.person{
+    width:170px;
+    height:350px;
+    position:relative;
+    opacity:.9;
+}
+
+.head{
+    position:absolute;
+    width:70px;
+    height:70px;
+    border:2px solid #555;
+    border-radius:50%;
+    left:50px;
+    top:0;
+}
+
+.body{
+    position:absolute;
+    width:110px;
+    height:220px;
+    border:2px solid #555;
+    border-radius:55px 55px 25px 25px;
+    left:30px;
+    top:78px;
+}
+
+.zone{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#555;
+    border:2px solid #aaa;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.zone:hover,
+.zone.selected{
+    background:var(--green);
+    border-color:white;
+    box-shadow:0 0 20px rgba(138,255,0,.4);
+}
+
+.zone-head{
+    top:25px;
+}
+
+.zone-neck{
+    top:83px;
+}
+
+.zone-chest{
+    top:140px;
+}
+
+.info-list{
+    display:grid;
+    gap:10px;
+}
+
+.info-row{
+    padding:15px;
+    background:#0b0b0b;
+    border:1px solid #202020;
+    border-radius:11px;
+}
+
+.info-row strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.info-row span{
+    color:#777;
+    font-size:12px;
+}
+
+/* SLIDERS */
+
+.slider-grid{
+    display:grid;
+    gap:14px;
+}
+
+.slider-card{
+    background:#0c0c0c;
+    border:1px solid #222;
+    border-radius:15px;
+    padding:18px;
+}
+
+.slider-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:13px;
+}
+
+.slider-top span:first-child{
+    color:#bbb;
+    font-size:13px;
+}
+
+.slider-value{
+    color:var(--green);
+    font-weight:800;
+}
+
+input[type="range"]{
+    width:100%;
+    accent-color:#aaa;
+}
+
+/* BUTTONS */
+
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:1px solid #2b2b2b;
+    background:#111;
+    color:#ddd;
+    border-radius:10px;
+    padding:12px 15px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn:hover{
+    border-color:#555;
+    transform:translateY(-1px);
+}
+
+.btn.green{
+    background:#b7ff65;
+    color:#050505;
+    border-color:#b7ff65;
+    font-weight:800;
+}
+
+.btn.red{
+    color:#ff6767;
+    border-color:#442020;
+}
+
+.btn.blue{
+    color:#73b9ff;
+}
+
+.btn.small{
+    padding:8px 10px;
+    font-size:11px;
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow:auto;
+    border:1px solid #222;
+    border-radius:15px;
+    background:#0a0a0a;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th{
+    color:#666;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    text-align:left;
+    padding:14px;
+    border-bottom:1px solid #222;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #181818;
+    color:#bbb;
+    font-size:12px;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:5px 8px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:800;
+}
+
+.status.on{
+    color:var(--green);
+    background:rgba(138,255,0,.07);
+}
+
+.status.off{
+    color:#ff6666;
+    background:rgba(255,50,50,.07);
+}
+
+/* SALES */
+
+.sales-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:17px;
+}
+
+.free-badge{
+    color:var(--green);
+    border:1px solid rgba(138,255,0,.25);
+    background:rgba(138,255,0,.06);
+    padding:8px 12px;
+    border-radius:9px;
+    font-size:11px;
+    font-weight:800;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.product{
+    position:relative;
+    overflow:hidden;
+}
+
+.product.vip{
+    border-color:#424242;
+}
+
+.product-tag{
+    position:absolute;
+    top:15px;
+    right:15px;
+    color:#777;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+.product h3{
+    font-family:Orbitron;
+    margin-bottom:9px;
+}
+
+.product p{
+    color:#777;
+    font-size:12px;
+    line-height:1.6;
+    min-height:40px;
+}
+
+.price{
+    font-family:Orbitron;
+    font-size:27px;
+    margin:20px 0;
+}
+
+.price small{
+    font-family:Inter;
+    color:#777;
+    font-size:11px;
+}
+
+.product .btn{
+    width:100%;
+}
+
+.admin-products{
+    margin-top:22px;
+}
+
+.admin-product{
+    display:grid;
+    grid-template-columns:1.3fr .7fr auto auto;
+    gap:10px;
+    align-items:center;
+    padding:12px;
+    border-bottom:1px solid #1c1c1c;
+}
+
+.admin-product input{
+    width:100%;
+    padding:10px;
+    background:#080808;
+    border:1px solid #292929;
+    color:white;
+    border-radius:8px;
+    outline:none;
+}
+
+/* SETTINGS */
+
+.setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:17px;
+    border-bottom:1px solid #1b1b1b;
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.setting-text strong{
+    display:block;
+    font-size:13px;
+}
+
+.setting-text span{
+    display:block;
+    color:#666;
+    font-size:11px;
+    margin-top:4px;
+}
+
+.toggle{
+    width:45px;
+    height:24px;
+    border-radius:20px;
+    background:#222;
+    border:1px solid #333;
+    position:relative;
+    cursor:pointer;
+}
+
+.toggle::after{
+    content:"";
+    width:18px;
+    height:18px;
+    position:absolute;
+    top:2px;
+    left:3px;
+    border-radius:50%;
+    background:#777;
+    transition:.2s;
+}
+
+.toggle.active{
+    background:#273a1a;
+}
+
+.toggle.active::after{
+    left:22px;
+    background:var(--green);
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(7px);
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(430px,100%);
+    background:#0b0b0b;
+    border:1px solid #303030;
+    border-radius:18px;
+    padding:25px;
+}
+
+.modal-box h3{
+    font-family:Orbitron;
+    margin-bottom:10px;
+}
+
+.modal-box p{
+    color:#777;
+    font-size:12px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:9px;
+}
+
+.modal-actions .btn{
+    flex:1;
+}
+
+/* TOAST */
+
+#toast{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:100;
+    background:#111;
+    border:1px solid #303030;
+    border-radius:12px;
+    padding:13px 17px;
+    color:#ddd;
+    font-size:12px;
+    transform:translateY(100px);
+    opacity:0;
+    transition:.25s;
+}
+
+#toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* MOBILE */
+
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:1000px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .aim-box{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:720px){
+    .sidebar{
+        width:100%;
+        height:auto;
+        bottom:auto;
+        position:fixed;
+        padding:10px;
+        display:flex;
+        overflow-x:auto;
+        gap:5px;
+    }
+
+    .brand,
+    .nav-title,
+    .logout{
+        display:none;
+    }
+
+    .nav-btn{
+        min-width:max-content;
+        margin:0;
+    }
+
+    .main{
+        margin-left:0;
+        padding:82px 15px 20px;
+    }
+
+    .topbar{
+        align-items:flex-start;
+        gap:10px;
+    }
+
+    .user-badge{
+        display:none;
+    }
+
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .hero h2{
+        font-size:20px;
+    }
+
+    .admin-product{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div class="background-glow"></div>
+<canvas id="rain"></canvas>
 
-<header class="header">
-    <div class="logo">
-        RAVI<span>SENSI</span>
-    </div>
+<!-- LOGIN -->
 
-    <nav class="nav">
-        <a href="#inicio">Início</a>
-        <a href="#gerador">Gerador</a>
-        <a href="#loja">Loja</a>
-        <a href="#hud">HUD</a>
-        <a href="#boost">Boost</a>
-        <a href="#sobre">Sobre</a>
-    </nav>
-</header>
+<div id="loginScreen">
 
-<main>
+    <div class="login-box">
 
-<section class="hero" id="inicio">
-    <div class="hero-content">
+        <div class="logo">RF</div>
 
-        <span class="hero-badge">🎯 RAVI SENSI • FREE FIRE</span>
-
-        <h1>
-            DOMINE SUA<br>
-            <span>SENSIBILIDADE.</span>
-        </h1>
+        <h1>RAVI FF PANEL</h1>
 
         <p>
-            Encontre a sensibilidade ideal para seu estilo de jogo,
-            configure seu HUD e melhore sua experiência no Free Fire.
+            Acesso ao painel de configuração
         </p>
 
-        <div class="hero-buttons">
-            <a href="#gerador" class="btn primary">
-                ⚡ GERAR MINHA SENSI
-            </a>
-
-            <a href="#boost" class="btn secondary">
-                🚀 RAVI BOOST
-            </a>
+        <div class="input-wrap">
+            <input
+                id="accessCode"
+                type="text"
+                placeholder="Digite seu código"
+                autocomplete="off"
+            >
         </div>
 
-        <div class="hero-stats">
-            <div>
-                <strong>100%</strong>
-                <span>CONFIGURÁVEL</span>
-            </div>
-
-            <div>
-                <strong>6+</strong>
-                <span>HUDs</span>
-            </div>
-
-            <div>
-                <strong>PC</strong>
-                <span>ANDROID</span>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-<section class="highlights">
-
-    <div class="section-heading">
-        <span class="eyebrow">⚡ RECURSOS</span>
-
-        <h2>
-            TUDO PARA <span>JOGAR MELHOR</span>
-        </h2>
-
-        <p>
-            Ferramentas criadas para facilitar sua configuração.
-        </p>
-    </div>
-
-    <div class="highlight-grid">
-
-        <div class="highlight-card">
-            <div class="card-icon">🎯</div>
-
-            <h3>SENSIBILIDADE</h3>
-
-            <p>
-                Gere configurações de sensibilidade de acordo
-                com seu dispositivo e estilo.
-            </p>
-        </div>
-
-        <div class="highlight-card">
-            <div class="card-icon">🎮</div>
-
-            <h3>HUDs</h3>
-
-            <p>
-                Encontre códigos de HUD para diferentes estilos
-                de controle.
-            </p>
-        </div>
-
-        <div class="highlight-card">
-            <div class="card-icon">🚀</div>
-
-            <h3>BOOST</h3>
-
-            <p>
-                Recomendações para melhorar estabilidade,
-                gráficos e desempenho.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="generator-section" id="gerador">
-
-    <div class="section-heading">
-        <span class="eyebrow">🎯 RAVI GENERATOR</span>
-
-        <h2>
-            GERE SUA <span>SENSI</span>
-        </h2>
-
-        <p>
-            Escolha seu dispositivo e seu estilo de jogo.
-        </p>
-    </div>
-
-    <div class="generator-box">
-
-        <div class="generator-form">
-
-            <label for="device">📱 DISPOSITIVO</label>
-
-            <select id="device">
-                <option value="android">Android</option>
-                <option value="iphone">iPhone</option>
-                <option value="emulator">Emulador</option>
-            </select>
-
-            <label for="style">🎯 ESTILO DE JOGO</label>
-
-            <select id="style">
-                <option value="precisao">Precisão</option>
-                <option value="capa">Capa</option>
-                <option value="equilibrada">Equilibrada</option>
-                <option value="rapida">Rápida</option>
-            </select>
-
-            <button class="btn primary" onclick="generateSensi()">
-                ⚡ GERAR SENSIBILIDADE
-            </button>
-
-        </div>
-
-
-        <div class="result-box" id="result">
-
-            <div class="result-header">
-                <span>RESULTADO</span>
-                <span>RAVI SENSI</span>
-            </div>
-
-            <div class="result-grid">
-
-                <div>
-                    <span>Geral</span>
-                    <strong id="geral">--</strong>
-                </div>
-
-                <div>
-                    <span>Ponto Vermelho</span>
-                    <strong id="redDot">--</strong>
-                </div>
-
-                <div>
-                    <span>Mira 2x</span>
-                    <strong id="mira2x">--</strong>
-                </div>
-
-                <div>
-                    <span>Mira 4x</span>
-                    <strong id="mira4x">--</strong>
-                </div>
-
-                <div>
-                    <span>AWM</span>
-                    <strong id="awm">--</strong>
-                </div>
-
-                <div>
-                    <span>DPI</span>
-                    <strong id="dpi">--</strong>
-                </div>
-
-                <div>
-                    <span>Botão de tiro</span>
-                    <strong id="botao">--</strong>
-                </div>
-
-            </div>
-
-            <p id="message"></p>
-
-            <button class="copy-btn" onclick="copySensi()">
-                📋 COPIAR SENSI
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="store-section" id="loja">
-
-    <div class="section-heading">
-
-        <span class="eyebrow">🛒 RAVI STORE</span>
-
-        <h2>
-            CONFIGURAÇÕES <span>PREMIUM</span>
-        </h2>
-
-        <p>
-            Escolha uma configuração para seu dispositivo.
-        </p>
-
-    </div>
-
-
-    <div class="products">
-
-        <div class="product-card">
-
-            <span class="product-tag">ANDROID</span>
-
-            <h3>RAVI CAPA</h3>
-
-            <p>
-                Configuração focada em capa e resposta rápida.
-            </p>
-
-            <div class="price">R$ 9,90</div>
-
-            <button onclick="buyProduct('RAVI CAPA')">
-                COMPRAR
-            </button>
-
-        </div>
-
-
-        <div class="product-card featured">
-
-            <span class="product-tag">MAIS POPULAR</span>
-
-            <h3>RAVI ULTRA</h3>
-
-            <p>
-                Configuração equilibrada para Android e iPhone.
-            </p>
-
-            <div class="price">R$ 14,90</div>
-
-            <button onclick="buyProduct('RAVI ULTRA')">
-                COMPRAR AGORA
-            </button>
-
-        </div>
-
-
-        <div class="product-card">
-
-            <span class="product-tag">EMULADOR</span>
-
-            <h3>RAVI EMULATOR</h3>
-
-            <p>
-                Configuração pensada para jogar no PC.
-            </p>
-
-            <div class="price">R$ 12,90</div>
-
-            <button onclick="buyProduct('RAVI EMULATOR')">
-                COMPRAR
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <p class="store-warning">
-        ⚠️ As configurações são recomendações.
-        Os resultados podem variar de acordo com dispositivo,
-        DPI, FPS e estilo de jogo.
-    </p>
-
-</section>
-
-
-<section class="hud-section" id="hud">
-
-    <div class="section-heading">
-
-        <span class="eyebrow">🎮 RAVI HUD</span>
-
-        <h2>
-            HUDs <span>PRONTOS</span>
-        </h2>
-
-        <p>
-            Escolha seu estilo e copie o código do HUD.
-        </p>
-
-    </div>
-
-
-    <div class="hud-grid">
-
-        <div class="hud-card">
-
-            <div class="hud-icon">🖐️</div>
-
-            <span class="hud-badge">MOBILE</span>
-
-            <h3>HUD 2 DEDOS</h3>
-
-            <p>
-                Configuração para jogar com 2 dedos.
-            </p>
-
-            <div class="hud-code">
-                #FFHUDT6O3jjHQi0FPo7eM
-            </div>
-
-            <button onclick="copyHud('#FFHUDT6O3jjHQi0FPo7eM', this)">
-                📋 COPIAR HUD
-            </button>
-
-        </div>
-
-
-        <div class="hud-card">
-
-            <div class="hud-icon">✋</div>
-
-            <span class="hud-badge">MOBILE</span>
-
-            <h3>HUD 3 DEDOS</h3>
-
-            <p>
-                Mais controle para movimentação e mira.
-            </p>
-
-            <div class="hud-code">
-                #FFHUDT6O3jjRP1K5Po7eO
-            </div>
-
-            <button onclick="copyHud('#FFHUDT6O3jjRP1K5Po7eO', this)">
-                📋 COPIAR HUD
-            </button>
-
-        </div>
-
-
-        <div class="hud-card">
-
-            <div class="hud-icon">🔥</div>
-
-            <span class="hud-badge">MOBILE</span>
-
-            <h3>HUD 4 DEDOS</h3>
-
-            <p>
-                Para quem prefere mais controles na tela.
-            </p>
-
-            <div class="hud-code">
-                #FFHUDT6O3jg3LCldPo7eP
-            </div>
-
-            <button onclick="copyHud('#FFHUDT6O3jg3LCldPo7eP', this)">
-                📋 COPIAR HUD
-            </button>
-
-        </div>
-
-
-        <div class="hud-card">
-
-            <div class="hud-icon">🖥️</div>
-
-            <span class="hud-badge">EMULADOR</span>
-
-            <h3>HUD EMULADOR</h3>
-
-            <p>
-                Configuração para jogar Free Fire no PC.
-            </p>
-
-            <div class="hud-code">
-                #FFHUDT6O3jHNxESpPo7eP
-            </div>
-
-            <button onclick="copyHud('#FFHUDT6O3jHNxESpPo7eP', this)">
-                📋 COPIAR HUD
-            </button>
-
-        </div>
-
-
-        <div class="hud-card">
-
-            <div class="hud-icon">⚡</div>
-
-            <span class="hud-badge">EMULADOR</span>
-
-            <h3>MEU HUD</h3>
-
-            <p>
-                HUD pessoal para jogar no emulador.
-            </p>
-
-            <div class="hud-code">
-                #FFHUDT6O3j3q5W8JPo7eM
-            </div>
-
-            <button onclick="copyHud('#FFHUDT6O3j3q5W8JPo7eM', this)">
-                📋 COPIAR HUD
-            </button>
-
-        </div>
-
-
-        <div class="hud-card">
-
-            <div class="hud-icon">🎯</div>
-
-            <span class="hud-badge">EMULADOR</span>
-
-            <h3>HUD EMULADOR 2</h3>
-
-            <p>
-                Outra opção de HUD para jogar no PC.
-            </p>
-
-            <div class="hud-code">
-                #FFHUDT6O3jnDVQDNPo7eP
-            </div>
-
-            <button onclick="copyHud('#FFHUDT6O3jnDVQDNPo7eP', this)">
-                📋 COPIAR HUD
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <div class="hud-warning">
-        ⚠️ Os códigos podem mudar ou deixar de funcionar
-        após atualizações do Free Fire.
-    </div>
-
-</section>
-
-
-<section class="boost-section" id="boost">
-
-    <div class="section-heading">
-
-        <span class="eyebrow">🚀 RAVI BOOST</span>
-
-        <h2>
-            PAINEL DE <span>OTIMIZAÇÃO</span>
-        </h2>
-
-        <p>
-            Central de recomendações para desempenho e estabilidade.
-        </p>
-
-    </div>
-
-
-    <div class="boost-box">
-
-        <div class="boost-panel-header">
-
-            <div>
-
-                <span class="boost-status">
-                    ● SISTEMA ONLINE
-                </span>
-
-                <h3>RAVI PERFORMANCE PANEL</h3>
-
-                <p>Central de otimização</p>
-
-            </div>
-
-            <div class="boost-icon">
-                ⚡
-            </div>
-
-        </div>
-
-
-        <div class="boost-device">
-
-            <label for="optimizationDevice">
-                🖥️ SELECIONE SEU DISPOSITIVO
-            </label>
-
-            <select id="optimizationDevice">
-
-                <option value="android">
-                    📱 Android
-                </option>
-
-                <option value="iphone">
-                    🍎 iPhone
-                </option>
-
-                <option value="emulator">
-                    🖥️ Emulador
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="boost-options">
-
-            <div class="boost-option">
-                <span>🎯</span>
-
-                <div>
-                    <strong>FPS</strong>
-                    <small>Priorizar estabilidade</small>
-                </div>
-            </div>
-
-
-            <div class="boost-option">
-                <span>🎨</span>
-
-                <div>
-                    <strong>GRÁFICOS</strong>
-                    <small>Equilibrar qualidade</small>
-                </div>
-            </div>
-
-
-            <div class="boost-option">
-                <span>🌑</span>
-
-                <div>
-                    <strong>SOMBRAS</strong>
-                    <small>Reduzir impacto</small>
-                </div>
-            </div>
-
-
-            <div class="boost-option">
-                <span>✨</span>
-
-                <div>
-                    <strong>EFEITOS</strong>
-                    <small>Melhorar desempenho</small>
-                </div>
-            </div>
-
-
-            <div class="boost-option">
-                <span>🚀</span>
-
-                <div>
-                    <strong>PERFORMANCE</strong>
-                    <small>Otimização geral</small>
-                </div>
-            </div>
-
-
-            <div class="boost-option">
-                <span>🌐</span>
-
-                <div>
-                    <strong>CONEXÃO</strong>
-                    <small>Estabilidade de rede</small>
-                </div>
-            </div>
-
-        </div>
-
-
-        <button class="btn primary boost-main-button" onclick="optimizeGame()">
-            🚀 OTIMIZAR AGORA
+        <button class="login-btn" onclick="login()">
+            ENTRAR NO PAINEL
         </button>
 
+        <div id="loginMsg" class="login-msg"></div>
 
-        <div class="optimization-result" id="optimizationResult">
+    </div>
+
+</div>
+
+
+<!-- APP -->
+
+<div id="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-name">RAVI FF</div>
+            <div class="brand-sub">CONTROL PANEL</div>
+        </div>
+
+        <div class="nav-title">Principal</div>
+
+        <button class="nav-btn active" onclick="showSection('home',this)">
+            <span class="icon">⌂</span> Início
+        </button>
+
+        <button class="nav-btn" onclick="showSection('aim',this)">
+            <span class="icon">◎</span> Área de Mira
+        </button>
+
+        <button class="nav-btn" onclick="showSection('sensi',this)">
+            <span class="icon">◈</span> Sensibilidade
+        </button>
+
+        <button class="nav-btn" onclick="showSection('tools',this)">
+            <span class="icon">⚙</span> Ferramentas
+        </button>
+
+        <button class="nav-btn" onclick="showSection('stats',this)">
+            <span class="icon">▥</span> Estatísticas
+        </button>
+
+        <div class="nav-title">Sistema</div>
+
+        <button class="nav-btn" onclick="showSection('settings',this)">
+            <span class="icon">◉</span> Configurações
+        </button>
+
+        <button
+            id="adminNav"
+            class="nav-btn"
+            style="display:none"
+            onclick="showSection('admin',this)"
+        >
+            <span class="icon">♛</span> Central ADM
+        </button>
+
+        <!-- SALES AGORA APARECE PARA PLAYER E ADM -->
+
+        <button
+            id="salesNav"
+            class="nav-btn"
+            onclick="showSection('sales',this)"
+        >
+            <span class="icon">▣</span> Vendas
+        </button>
+
+        <button class="nav-btn" onclick="showSection('info',this)">
+            <span class="icon">ⓘ</span> Informações
+        </button>
+
+        <button class="nav-btn logout" onclick="logout()">
+            <span class="icon">↪</span> Sair
+        </button>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="topbar">
 
             <div>
-                <span>FPS</span>
-                <strong id="boostFps">--</strong>
+                <div class="page-title" id="pageTitle">
+                    Dashboard
+                </div>
+
+                <div class="page-sub">
+                    RAVI FF PANEL • sistema de configuração
+                </div>
             </div>
 
-            <div>
-                <span>Gráficos</span>
-                <strong id="boostGraphics">--</strong>
-            </div>
-
-            <div>
-                <span>Sombras</span>
-                <strong id="boostShadows">--</strong>
-            </div>
-
-            <div>
-                <span>Efeitos</span>
-                <strong id="boostEffects">--</strong>
-            </div>
-
-            <div>
-                <span>Desempenho</span>
-                <strong id="boostPerformance">--</strong>
-            </div>
-
-            <div>
-                <span>Conexão</span>
-                <strong id="boostConnection">--</strong>
+            <div class="user-badge">
+                <span class="dot"></span>
+                <span id="roleText">PLAYER</span>
             </div>
 
         </div>
 
 
-        <p id="boostTip"></p>
+        <!-- HOME -->
 
-    </div>
+        <section id="home" class="section active">
 
-</section>
+            <div class="hero">
+
+                <h2>
+                    Bem-vindo ao RAVI FF PANEL
+                </h2>
+
+                <p>
+                    Painel premium para organizar suas configurações,
+                    sensibilidade, ferramentas e acesso aos produtos.
+                </p>
+
+            </div>
+
+            <div class="grid">
+
+                <div class="card">
+                    <div class="stat-label">Status</div>
+                    <div class="stat-value stat-green">
+                        ONLINE
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Acesso</div>
+                    <div class="stat-value" id="homeRole">
+                        PLAYER
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Precisão</div>
+                    <div class="stat-value">
+                        98%
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Versão</div>
+                    <div class="stat-value">
+                        2.0
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
 
 
-<section class="about-section" id="sobre">
+        <!-- AIM -->
 
-    <div class="section-heading">
+        <section id="aim" class="section">
 
-        <span class="eyebrow">🔥 SOBRE</span>
+            <div class="hero">
+                <h2>Área de Mira</h2>
+                <p>
+                    Área visual para organizar sua preferência de mira.
+                    Não altera arquivos ou o funcionamento do jogo.
+                </p>
+            </div>
 
-        <h2>
-            RAVI <span>SENSI</span>
-        </h2>
+            <div class="aim-box">
 
-        <p>
-            Um projeto focado em reunir ferramentas,
-            configurações e recomendações para jogadores
-            de Free Fire.
+                <div class="card aim-preview">
+
+                    <div class="person">
+
+                        <div class="head"></div>
+                        <div class="body"></div>
+
+                        <div
+                            class="zone zone-head"
+                            onclick="selectZone('HEAD')"
+                        ></div>
+
+                        <div
+                            class="zone zone-neck"
+                            onclick="selectZone('NECK')"
+                        ></div>
+
+                        <div
+                            class="zone zone-chest"
+                            onclick="selectZone('CHEST')"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="info-list">
+
+                        <div class="info-row">
+                            <strong>HEAD</strong>
+                            <span>Prioridade visual: alta</span>
+                        </div>
+
+                        <div class="info-row">
+                            <strong>NECK</strong>
+                            <span>Prioridade visual: média</span>
+                        </div>
+
+                        <div class="info-row">
+                            <strong>CHEST</strong>
+                            <span>Prioridade visual: baixa</span>
+                        </div>
+
+                        <div class="info-row">
+                            <strong id="selectedZone">
+                                Nenhuma zona selecionada
+                            </strong>
+                            <span>
+                                Clique em uma zona para selecionar.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SENSI -->
+
+        <section id="sensi" class="section">
+
+            <div class="hero">
+                <h2>Sensibilidade</h2>
+                <p>
+                    Ajuste visualmente seus valores e salve a configuração
+                    no navegador.
+                </p>
+            </div>
+
+            <div class="slider-grid">
+
+                <div class="slider-card">
+                    <div class="slider-top">
+                        <span>Geral</span>
+                        <span class="slider-value" id="generalValue">90</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value="90"
+                        oninput="updateSlider('general',this.value)"
+                    >
+                </div>
+
+                <div class="slider-card">
+                    <div class="slider-top">
+                        <span>Ponto Vermelho</span>
+                        <span class="slider-value" id="redValue">85</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value="85"
+                        oninput="updateSlider('red',this.value)"
+                    >
+                </div>
+
+                <div class="slider-card">
+                    <div class="slider-top">
+                        <span>Mira 2x</span>
+                        <span class="slider-value" id="twoValue">80</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value="80"
+                        oninput="updateSlider('two',this.value)"
+                    >
+                </div>
+
+                <div class="slider-card">
+                    <div class="slider-top">
+                        <span>Mira 4x</span>
+                        <span class="slider-value" id="fourValue">75</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value="75"
+                        oninput="updateSlider('four',this.value)"
+                    >
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="actions">
+
+                <button class="btn green" onclick="saveSensi()">
+                    Salvar configuração
+                </button>
+
+                <button class="btn" onclick="resetSensi()">
+                    Restaurar
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- TOOLS -->
+
+        <section id="tools" class="section">
+
+            <div class="hero">
+                <h2>Ferramentas</h2>
+                <p>
+                    Perfis rápidos para organizar suas configurações.
+                </p>
+            </div>
+
+            <div class="grid">
+
+                <div class="card">
+
+                    <div class="stat-label">Perfil</div>
+
+                    <div class="stat-value">
+                        QUICK
+                    </div>
+
+                    <br>
+
+                    <button
+                        class="btn green"
+                        onclick="quickProfile()"
+                    >
+                        Aplicar
+                    </button>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="stat-label">Perfil</div>
+
+                    <div class="stat-value">
+                        BALANCED
+                    </div>
+
+                    <br>
+
+                    <button
+                        class="btn"
+                        onclick="balancedProfile()"
+                    >
+                        Aplicar
+                    </button>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="stat-label">Sistema</div>
+
+                    <div class="stat-value">
+                        RESTORE
+                    </div>
+
+                    <br>
+
+                    <button
+                        class="btn"
+                        onclick="resetSensi()"
+                    >
+                        Restaurar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATS -->
+
+        <section id="stats" class="section">
+
+            <div class="hero">
+                <h2>Estatísticas</h2>
+                <p>
+                    Resumo das configurações atuais do painel.
+                </p>
+            </div>
+
+            <div class="grid">
+
+                <div class="card">
+                    <div class="stat-label">Geral</div>
+                    <div class="stat-value" id="statGeneral">90</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Red Dot</div>
+                    <div class="stat-value" id="statRed">85</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">2x</div>
+                    <div class="stat-value" id="statTwo">80</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">4x</div>
+                    <div class="stat-value" id="statFour">75</div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+
+        <section id="settings" class="section">
+
+            <div class="hero">
+                <h2>Configurações</h2>
+                <p>
+                    Preferências visuais do painel.
+                </p>
+            </div>
+
+            <div class="card">
+
+                <div class="setting">
+
+                    <div class="setting-text">
+                        <strong>Animação de chuva</strong>
+                        <span>Exibir partículas no fundo.</span>
+                    </div>
+
+                    <div
+                        id="rainToggle"
+                        class="toggle active"
+                        onclick="toggleRain()"
+                    ></div>
+
+                </div>
+
+                <div class="setting">
+
+                    <div class="setting-text">
+                        <strong>Efeitos visuais</strong>
+                        <span>Ativar pequenos efeitos do painel.</span>
+                    </div>
+
+                    <div
+                        id="effectsToggle"
+                        class="toggle active"
+                        onclick="toggleEffects()"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ADMIN -->
+
+        <section id="admin" class="section">
+
+            <div class="hero">
+
+                <h2>Central ADM</h2>
+
+                <p>
+                    Área exclusiva do administrador para gerenciar
+                    códigos de acesso e configurações do painel.
+                </p>
+
+            </div>
+
+            <div class="grid">
+
+                <div class="card">
+                    <div class="stat-label">Códigos</div>
+                    <div class="stat-value" id="totalCodes">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Ativos</div>
+                    <div class="stat-value stat-green" id="activeCodes">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Desativados</div>
+                    <div class="stat-value" id="inactiveCodes">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Produtos</div>
+                    <div class="stat-value" id="adminProductsCount">0</div>
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="card">
+
+                <div class="sales-head">
+
+                    <div>
+                        <strong>Gerenciar códigos</strong>
+                        <div class="page-sub">
+                            Ative ou desative o acesso de cada código.
+                        </div>
+                    </div>
+
+                    <button
+                        class="btn green"
+                        onclick="generateCode()"
+                    >
+                        + Gerar código
+                    </button>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Código</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="codeTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SALES -->
+
+        <section id="sales" class="section">
+
+            <div class="hero">
+
+                <div class="sales-head">
+
+                    <div>
+                        <h2>Vendas</h2>
+                        <p>
+                            Produtos e planos disponíveis no painel.
+                        </p>
+                    </div>
+
+                    <div
+                        id="adminFreeBadge"
+                        class="free-badge"
+                        style="display:none"
+                    >
+                        ADM • ACESSO GRATUITO
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="productsContainer" class="products"></div>
+
+
+            <!-- ADMIN PRODUCT MANAGER -->
+
+            <div
+                id="productManager"
+                class="card admin-products"
+                style="display:none"
+            >
+
+                <div class="sales-head">
+
+                    <div>
+                        <strong>Gerenciar produtos</strong>
+
+                        <div class="page-sub">
+                            Somente ADM pode alterar preços e status.
+                        </div>
+                    </div>
+
+                    <button
+                        class="btn green"
+                        onclick="addProduct()"
+                    >
+                        + Produto
+                    </button>
+
+                </div>
+
+                <div id="adminProductList"></div>
+
+            </div>
+
+
+            <br>
+
+            <div class="card">
+
+                <strong>
+                    Pedidos demonstrativos
+                </strong>
+
+                <div class="page-sub">
+                    Esta tabela é apenas demonstrativa.
+                </div>
+
+                <br>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Produto</th>
+                                <th>Valor</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="ordersTable">
+
+                            <tr>
+                                <td colspan="4">
+                                    Nenhum pedido ainda.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFO -->
+
+        <section id="info" class="section">
+
+            <div class="hero">
+
+                <h2>Informações</h2>
+
+                <p>
+                    RAVI FF PANEL é uma interface de configuração
+                    criada para organizar preferências e ferramentas
+                    do usuário.
+                </p>
+
+            </div>
+
+            <div class="grid">
+
+                <div class="card">
+                    <div class="stat-label">Painel</div>
+                    <div class="stat-value">
+                        RAVI
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Versão</div>
+                    <div class="stat-value">
+                        2.0
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Sistema</div>
+                    <div class="stat-value stat-green">
+                        ONLINE
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Tipo</div>
+                    <div class="stat-value">
+                        WEB
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+
+    <div class="modal-box">
+
+        <h3 id="modalTitle">
+            Confirmar
+        </h3>
+
+        <p id="modalText">
+            Confirma esta ação?
         </p>
 
+        <div class="modal-actions">
+
+            <button
+                class="btn"
+                onclick="closeModal()"
+            >
+                Cancelar
+            </button>
+
+            <button
+                id="modalConfirm"
+                class="btn green"
+            >
+                Confirmar
+            </button>
+
+        </div>
+
     </div>
 
-</section>
-
-</main>
+</div>
 
 
-<footer class="footer">
-
-    <div class="logo">
-        RAVI<span>SENSI</span>
-    </div>
-
-    <p>
-        © 2026 RAVI SENSI • Free Fire
-    </p>
-
-    <p>
-        Configurações são recomendações e não garantem resultados.
-    </p>
-
-</footer>
+<div id="toast">
+    Salvo com sucesso.
+</div>
 
 
-<script src="script.js"></script>
+<script>
+
+/* =========================================================
+   CONFIGURAÇÕES
+========================================================= */
+
+const ADMIN_CODE = "R2026";
+
+const DEFAULT_CODES = [
+    "RAVI-Q8K4-M7XP",
+    "RAVI-2N6T-W9ZR",
+    "RAVI-H5Q8-K3YM",
+    "RAVI-7X2P-N6VK",
+    "RAVI-M4ZT-8QWR",
+    "RAVI-9K3H-T7XN",
+    "RAVI-W6MP-2R8Q",
+    "RAVI-F7ZN-5K4T",
+    "RAVI-3Y8Q-H6MW",
+    "RAVI-P2VK-9X5N",
+    "RAVI-X7K9-82QM",
+    "RAVI-P4ZT-6N8K",
+    "RAVI-3QW7-H9XP",
+    "RAVI-M8KD-2R5V",
+    "RAVI-T6YQ-9L3N",
+    "RAVI-7FHP-4X2M",
+    "RAVI-K5RN-8Q6T",
+    "RAVI-9Z3C-W7KD",
+    "RAVI-H2XM-6P8Q",
+    "RAVI-V4TN-7K9R"
+];
+
+const DEFAULT_PRODUCTS = [
+    {
+        id:"basic",
+        name:"BASIC",
+        price:9.90,
+        description:"Plano básico para acesso às configurações.",
+        active:true
+    },
+    {
+        id:"premium",
+        name:"PREMIUM",
+        price:19.90,
+        description:"Plano completo para quem quer mais recursos.",
+        active:true
+    },
+    {
+        id:"vip",
+        name:"VIP",
+        price:29.90,
+        description:"Plano avançado com todos os recursos disponíveis.",
+        active:true
+    }
+];
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let isAdmin = false;
+let currentCode = "";
+
+let codes = loadData(
+    "ravi_codes",
+    DEFAULT_CODES.map(code => ({
+        code,
+        active:true
+    }))
+);
+
+let products = loadData(
+    "ravi_products",
+    DEFAULT_PRODUCTS
+);
+
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
+
+function loadData(key, fallback){
+
+    try{
+
+        const data = localStorage.getItem(key);
+
+        if(data){
+            return JSON.parse(data);
+        }
+
+    }catch(e){
+
+        console.log("Erro ao carregar:",e);
+
+    }
+
+    return fallback;
+}
+
+
+function saveData(key,data){
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function login(){
+
+    const input =
+        document
+        .getElementById("accessCode")
+        .value
+        .trim()
+        .toUpperCase();
+
+    const msg =
+        document.getElementById("loginMsg");
+
+
+    if(!input){
+
+        msg.textContent =
+            "Digite um código.";
+
+        msg.className =
+            "login-msg error";
+
+        return;
+    }
+
+
+    /* ADM */
+
+    if(input === ADMIN_CODE){
+
+        isAdmin = true;
+        currentCode = "ADM";
+
+        enterPanel();
+
+        return;
+    }
+
+
+    /* PLAYER */
+
+    const found =
+        codes.find(item =>
+            item.code.toUpperCase() === input
+        );
+
+
+    if(!found){
+
+        msg.textContent =
+            "❌ Código inválido.";
+
+        msg.className =
+            "login-msg error";
+
+        return;
+    }
+
+
+    /* CÓDIGO DESATIVADO */
+
+    if(!found.active){
+
+        msg.textContent =
+            "🔴 Este código está desativado.";
+
+        msg.className =
+            "login-msg error";
+
+        return;
+    }
+
+
+    isAdmin = false;
+    currentCode = found.code;
+
+    enterPanel();
+}
+
+
+function enterPanel(){
+
+    document
+        .getElementById("loginScreen")
+        .style.display = "none";
+
+    document
+        .getElementById("app")
+        .style.display = "block";
+
+
+    document
+        .getElementById("roleText")
+        .textContent =
+        isAdmin ? "ADM" : "PLAYER";
+
+
+    document
+        .getElementById("homeRole")
+        .textContent =
+        isAdmin ? "ADM" : "PLAYER";
+
+
+    document
+        .getElementById("adminNav")
+        .style.display =
+        isAdmin ? "block" : "none";
+
+
+    document
+        .getElementById("adminFreeBadge")
+        .style.display =
+        isAdmin ? "block" : "none";
+
+
+    document
+        .getElementById("productManager")
+        .style.display =
+        isAdmin ? "block" : "none";
+
+
+    renderProducts();
+    renderAdminProducts();
+    renderCodes();
+    updateStats();
+
+    showSection(
+        "home",
+        document.querySelector(".nav-btn")
+    );
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+    isAdmin = false;
+    currentCode = "";
+
+    document
+        .getElementById("app")
+        .style.display = "none";
+
+    document
+        .getElementById("loginScreen")
+        .style.display = "flex";
+
+    document
+        .getElementById("accessCode")
+        .value = "";
+
+    document
+        .getElementById("loginMsg")
+        .textContent = "";
+
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+function showSection(id,button){
+
+    document
+        .querySelectorAll(".section")
+        .forEach(section =>
+            section.classList.remove("active")
+        );
+
+
+    const target =
+        document.getElementById(id);
+
+    if(!target) return;
+
+    target.classList.add("active");
+
+
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+
+    if(button){
+        button.classList.add("active");
+    }
+
+
+    const titles = {
+
+        home:"Dashboard",
+        aim:"Área de Mira",
+        sensi:"Sensibilidade",
+        tools:"Ferramentas",
+        stats:"Estatísticas",
+        settings:"Configurações",
+        admin:"Central ADM",
+        sales:"Vendas",
+        info:"Informações"
+
+    };
+
+
+    document
+        .getElementById("pageTitle")
+        .textContent =
+        titles[id] || "Dashboard";
+}
+
+
+/* =========================================================
+   SENSIBILIDADE
+========================================================= */
+
+function updateSlider(type,value){
+
+    document
+        .getElementById(type + "Value")
+        .textContent = value;
+
+    updateStats();
+}
+
+
+function getSensi(){
+
+    return {
+
+        general:
+            Number(
+                document.querySelector(
+                    'input[oninput*="general"]'
+                ).value
+            ),
+
+        red:
+            Number(
+                document.querySelector(
+                    'input[oninput*="red"]'
+                ).value
+            ),
+
+        two:
+            Number(
+                document.querySelector(
+                    'input[oninput*="two"]'
+                ).value
+            ),
+
+        four:
+            Number(
+                document.querySelector(
+                    'input[oninput*="four"]'
+                ).value
+            )
+
+    };
+}
+
+
+function saveSensi(){
+
+    saveData(
+        "ravi_sensi",
+        getSensi()
+    );
+
+    toast("Configuração salva!");
+}
+
+
+function loadSensi(){
+
+    const data =
+        loadData(
+            "ravi_sensi",
+            {
+                general:90,
+                red:85,
+                two:80,
+                four:75
+            }
+        );
+
+
+    setSlider("general",data.general);
+    setSlider("red",data.red);
+    setSlider("two",data.two);
+    setSlider("four",data.four);
+
+}
+
+
+function setSlider(type,value){
+
+    const input =
+        document.querySelector(
+            'input[oninput*="' + type + '"]'
+        );
+
+    if(input){
+
+        input.value = value;
+
+        document
+            .getElementById(type + "Value")
+            .textContent = value;
+
+    }
+}
+
+
+function resetSensi(){
+
+    setSlider("general",90);
+    setSlider("red",85);
+    setSlider("two",80);
+    setSlider("four",75);
+
+    saveSensi();
+
+    toast("Sensibilidade restaurada.");
+}
+
+
+function quickProfile(){
+
+    setSlider("general",100);
+    setSlider("red",95);
+    setSlider("two",90);
+    setSlider("four",85);
+
+    saveSensi();
+
+    toast("Perfil QUICK aplicado.");
+}
+
+
+function balancedProfile(){
+
+    setSlider("general",90);
+    setSlider("red",85);
+    setSlider("two",80);
+    setSlider("four",75);
+
+    saveSensi();
+
+    toast("Perfil BALANCED aplicado.");
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+    const s = getSensi();
+
+    document.getElementById("statGeneral").textContent =
+        s.general;
+
+    document.getElementById("statRed").textContent =
+        s.red;
+
+    document.getElementById("statTwo").textContent =
+        s.two;
+
+    document.getElementById("statFour").textContent =
+        s.four;
+}
+
+
+/* =========================================================
+   AIM
+========================================================= */
+
+function selectZone(zone){
+
+    document
+        .querySelectorAll(".zone")
+        .forEach(item =>
+            item.classList.remove("selected")
+        );
+
+
+    const map = {
+
+        HEAD:".zone-head",
+        NECK:".zone-neck",
+        CHEST:".zone-chest"
+
+    };
+
+
+    document
+        .querySelector(map[zone])
+        .classList.add("selected");
+
+
+    document
+        .getElementById("selectedZone")
+        .textContent =
+        "Zona selecionada: " + zone;
+
+}
+
+
+/* =========================================================
+   CÓDIGOS ADM
+========================================================= */
+
+function renderCodes(){
+
+    const table =
+        document.getElementById("codeTable");
+
+    if(!table) return;
+
+    table.innerHTML = "";
+
+
+    codes.forEach((item,index)=>{
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <strong>${item.code}</strong>
+            </td>
+
+            <td>
+
+                <span class="status ${item.active ? "on":"off"}">
+
+                    ${item.active ? "● ATIVADO":"● DESATIVADO"}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                    class="btn small ${item.active ? "red":"green"}"
+                    onclick="toggleCode(${index})"
+                >
+
+                    ${item.active ? "Desativar":"Ativar"}
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+
+    updateCodeStats();
+}
+
+
+function toggleCode(index){
+
+    if(!isAdmin){
+
+        toast("Acesso negado.");
+
+        return;
+    }
+
+
+    codes[index].active =
+        !codes[index].active;
+
+
+    saveData(
+        "ravi_codes",
+        codes
+    );
+
+
+    renderCodes();
+
+
+    toast(
+        codes[index].active
+        ? "Código ativado!"
+        : "Código desativado!"
+    );
+}
+
+
+function updateCodeStats(){
+
+    const total =
+        codes.length;
+
+    const active =
+        codes.filter(x => x.active).length;
+
+    const inactive =
+        total - active;
+
+
+    document
+        .getElementById("totalCodes")
+        .textContent = total;
+
+    document
+        .getElementById("activeCodes")
+        .textContent = active;
+
+    document
+        .getElementById("inactiveCodes")
+        .textContent = inactive;
+
+}
+
+
+function generateCode(){
+
+    if(!isAdmin){
+
+        toast("Acesso exclusivo ADM.");
+
+        return;
+    }
+
+
+    let code;
+
+    do{
+
+        const chars =
+            "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+        function part(){
+
+            let result = "";
+
+            for(let i=0;i<4;i++){
+
+                result +=
+                    chars[
+                        Math.floor(
+                            Math.random()*chars.length
+                        )
+                    ];
+
+            }
+
+            return result;
+        }
+
+        code =
+            "RAVI-" +
+            part() +
+            "-" +
+            part();
+
+    }while(
+        codes.some(x => x.code === code)
+    );
+
+
+    codes.push({
+
+        code:code,
+        active:true
+
+    });
+
+
+    saveData(
+        "ravi_codes",
+        codes
+    );
+
+
+    renderCodes();
+
+    toast("Novo código criado: " + code);
+
+}
+
+
+/* =========================================================
+   PRODUTOS
+========================================================= */
+
+function renderProducts(){
+
+    const container =
+        document.getElementById("productsContainer");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+
+    const activeProducts =
+        products.filter(product => product.active);
+
+
+    activeProducts.forEach(product => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "card product " +
+            (product.id === "vip" ? "vip":"");
+
+
+        card.innerHTML = `
+
+            <div class="product-tag">
+                ${isAdmin ? "ADM • R$ 0,00":"DISPONÍVEL"}
+            </div>
+
+            <h3>
+                ${escapeHTML(product.name)}
+            </h3>
+
+            <p>
+                ${escapeHTML(product.description)}
+            </p>
+
+            <div class="price">
+
+                ${
+                    isAdmin
+                    ? "GRÁTIS"
+                    : "R$ " + Number(product.price)
+                        .toFixed(2)
+                        .replace(".",",")
+                }
+
+                ${
+                    !isAdmin
+                    ? '<small>/ acesso</small>'
+                    : ''
+                }
+
+            </div>
+
+            ${
+                isAdmin
+
+                ? `
+                    <button
+                        class="btn green"
+                        onclick="toast('Acesso ADM gratuito.')"
+                    >
+                        ACESSO ADM
+                    </button>
+                  `
+
+                : `
+                    <button
+                        class="btn green"
+                        onclick="buyProduct('${product.id}')"
+                    >
+                        COMPRAR
+                    </button>
+                  `
+            }
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+
+    document
+        .getElementById("adminProductsCount")
+        .textContent =
+        products.length;
+
+}
+
+
+/* =========================================================
+   GERENCIADOR ADM DE PRODUTOS
+========================================================= */
+
+function renderAdminProducts(){
+
+    if(!isAdmin) return;
+
+
+    const list =
+        document.getElementById(
+            "adminProductList"
+        );
+
+    if(!list) return;
+
+    list.innerHTML = "";
+
+
+    products.forEach((product,index)=>{
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "admin-product";
+
+
+        row.innerHTML = `
+
+            <input
+                value="${escapeAttr(product.name)}"
+                onchange="changeProductName(${index},this.value)"
+                placeholder="Nome"
+            >
+
+            <input
+                type="number"
+                min="0"
+                step="0.01"
+                value="${product.price}"
+                onchange="changeProductPrice(${index},this.value)"
+                placeholder="Preço"
+            >
+
+            <button
+                class="btn small ${product.active ? "red":"green"}"
+                onclick="toggleProduct(${index})"
+            >
+
+                ${product.active ? "Desativar":"Ativar"}
+
+            </button>
+
+            <button
+                class="btn small"
+                onclick="deleteProduct(${index})"
+            >
+                Excluir
+            </button>
+
+        `;
+
+
+        list.appendChild(row);
+
+    });
+
+}
+
+
+function changeProductName(index,value){
+
+    if(!isAdmin) return;
+
+    products[index].name =
+        value.trim() || "PRODUTO";
+
+    saveData(
+        "ravi_products",
+        products
+    );
+
+    renderProducts();
+
+}
+
+
+function changeProductPrice(index,value){
+
+    if(!isAdmin) return;
+
+    const price =
+        Number(value);
+
+    products[index].price =
+        price >= 0 ? price : 0;
+
+    saveData(
+        "ravi_products",
+        products
+    );
+
+    renderProducts();
+
+    toast("Preço atualizado.");
+
+}
+
+
+function toggleProduct(index){
+
+    if(!isAdmin) return;
+
+    products[index].active =
+        !products[index].active;
+
+
+    saveData(
+        "ravi_products",
+        products
+    );
+
+
+    renderProducts();
+    renderAdminProducts();
+
+
+    toast(
+        products[index].active
+        ? "Produto ativado!"
+        : "Produto desativado!"
+    );
+
+}
+
+
+function addProduct(){
+
+    if(!isAdmin) return;
+
+
+    const newProduct = {
+
+        id:
+            "product-" +
+            Date.now(),
+
+        name:"NOVO PRODUTO",
+
+        price:0,
+
+        description:
+            "Novo produto do painel.",
+
+        active:true
+
+    };
+
+
+    products.push(newProduct);
+
+
+    saveData(
+        "ravi_products",
+        products
+    );
+
+
+    renderProducts();
+    renderAdminProducts();
+
+    toast("Produto criado.");
+
+}
+
+
+function deleteProduct(index){
+
+    if(!isAdmin) return;
+
+
+    products.splice(index,1);
+
+
+    saveData(
+        "ravi_products",
+        products
+    );
+
+
+    renderProducts();
+    renderAdminProducts();
+
+    toast("Produto removido.");
+
+}
+
+
+/* =========================================================
+   COMPRA DEMONSTRATIVA
+========================================================= */
+
+function buyProduct(id){
+
+    const product =
+        products.find(
+            item => item.id === id
+        );
+
+
+    if(!product) return;
+
+
+    document
+        .getElementById("modalTitle")
+        .textContent =
+        "Comprar " + product.name;
+
+
+    document
+        .getElementById("modalText")
+        .textContent =
+        "Valor: R$ " +
+        Number(product.price)
+            .toFixed(2)
+            .replace(".",",") +
+        ". Esta demonstração não processa pagamento real.";
+
+
+    document
+        .getElementById("modalConfirm")
+        .onclick = function(){
+
+            addOrder(product);
+
+            closeModal();
+
+            toast(
+                "Pedido demonstrativo criado."
+            );
+
+        };
+
+
+    document
+        .getElementById("modal")
+        .classList.add("show");
+
+}
+
+
+function addOrder(product){
+
+    const table =
+        document.getElementById("ordersTable");
+
+
+    if(
+        table.children.length === 1 &&
+        table.children[0].children.length === 1
+    ){
+
+        table.innerHTML = "";
+
+    }
+
+
+    const row =
+        document.createElement("tr");
+
+
+    const date =
+        new Date()
+        .toLocaleDateString("pt-BR");
+
+
+    row.innerHTML = `
+
+        <td>
+            ${escapeHTML(product.name)}
+        </td>
+
+        <td>
+            R$ ${Number(product.price)
+                .toFixed(2)
+                .replace(".",",")}
+        </td>
+
+        <td>
+            ${date}
+        </td>
+
+        <td>
+            <span class="status on">
+                DEMO
+            </span>
+        </td>
+
+    `;
+
+
+    table.appendChild(row);
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function closeModal(){
+
+    document
+        .getElementById("modal")
+        .classList.remove("show");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function toast(message){
+
+    const box =
+        document.getElementById("toast");
+
+
+    box.textContent =
+        message;
+
+
+    box.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(()=>{
+
+            box.classList.remove("show");
+
+        },2500);
+
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+let rainEnabled = true;
+let effectsEnabled = true;
+
+
+function toggleRain(){
+
+    rainEnabled =
+        !rainEnabled;
+
+
+    document
+        .getElementById("rainToggle")
+        .classList.toggle(
+            "active",
+            rainEnabled
+        );
+
+
+    document
+        .getElementById("rain")
+        .style.opacity =
+        rainEnabled ? ".20":"0";
+
+}
+
+
+function toggleEffects(){
+
+    effectsEnabled =
+        !effectsEnabled;
+
+
+    document
+        .getElementById("effectsToggle")
+        .classList.toggle(
+            "active",
+            effectsEnabled
+        );
+
+}
+
+
+/* =========================================================
+   SEGURANÇA DE TEXTO
+========================================================= */
+
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttr(text){
+
+    return escapeHTML(text);
+
+}
+
+
+/* =========================================================
+   CHUVA
+========================================================= */
+
+const canvas =
+    document.getElementById("rain");
+
+const ctx =
+    canvas.getContext("2d");
+
+let drops = [];
+
+
+function resizeRain(){
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+
+
+    drops =
+        Array.from(
+            {
+                length:
+                    Math.floor(
+                        window.innerWidth / 12
+                    )
+            },
+            () => ({
+
+                x:
+                    Math.random() *
+                    window.innerWidth,
+
+                y:
+                    Math.random() *
+                    window.innerHeight,
+
+                speed:
+                    2 +
+                    Math.random()*5,
+
+                length:
+                    8 +
+                    Math.random()*22
+
+            })
+        );
+
+}
+
+
+function drawRain(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    if(rainEnabled){
+
+        ctx.strokeStyle =
+            "rgba(180,180,180,.35)";
+
+        ctx.lineWidth = 1;
+
+
+        drops.forEach(drop => {
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                drop.x,
+                drop.y
+            );
+
+            ctx.lineTo(
+                drop.x,
+                drop.y + drop.length
+            );
+
+            ctx.stroke();
+
+
+            drop.y += drop.speed;
+
+
+            if(
+                drop.y >
+                canvas.height
+            ){
+
+                drop.y =
+                    -drop.length;
+
+                drop.x =
+                    Math.random() *
+                    canvas.width;
+
+            }
+
+        });
+
+    }
+
+
+    requestAnimationFrame(drawRain);
+
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeRain
+);
+
+resizeRain();
+drawRain();
+
+
+/* =========================================================
+   ENTER NO INPUT
+========================================================= */
+
+document
+    .getElementById("accessCode")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                login();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+loadSensi();
+updateStats();
+
+</script>
 
 </body>
 </html>
