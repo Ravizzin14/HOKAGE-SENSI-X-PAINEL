@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -18,12 +17,15 @@
         <nav>
             <a href="#inicio">Início</a>
             <a href="#gerador">Gerador</a>
+            <a href="#otimizacao">Otimização</a>
             <a href="#sobre">Sobre</a>
         </nav>
     </header>
 
 
     <main>
+
+        <!-- HERO -->
 
         <section class="hero" id="inicio">
 
@@ -49,6 +51,8 @@
 
         </section>
 
+
+        <!-- GERADOR -->
 
         <section class="generator" id="gerador">
 
@@ -149,6 +153,7 @@
 
                     </div>
 
+
                     <button class="copy-button" onclick="copySensi()">
                         📋 COPIAR CONFIGURAÇÃO
                     </button>
@@ -162,6 +167,120 @@
         </section>
 
 
+        <!-- OTIMIZAÇÃO -->
+
+        <section class="optimization" id="otimizacao">
+
+            <div class="section-title">
+
+                <p>RAVI BOOST</p>
+
+                <h2>OTIMIZAÇÃO</h2>
+
+                <span>
+                    Ajuste suas configurações para buscar mais estabilidade e desempenho.
+                </span>
+
+            </div>
+
+
+            <div class="optimization-box">
+
+
+                <div class="input-group">
+
+                    <label for="optimizationDevice">
+                        📱 Seu dispositivo
+                    </label>
+
+                    <select id="optimizationDevice">
+
+                        <option value="android">
+                            Android
+                        </option>
+
+                        <option value="iphone">
+                            iPhone
+                        </option>
+
+                        <option value="emulador">
+                            Emulador
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button class="boost-button" onclick="optimizeGame()">
+                    ⚡ OTIMIZAR AGORA
+                </button>
+
+
+                <div class="optimization-result" id="optimizationResult">
+
+                    <h3>🚀 RAVI BOOST ATIVADO</h3>
+
+
+                    <div class="optimization-grid">
+
+                        <div class="optimization-item">
+                            <span>🎮 FPS</span>
+                            <strong id="boostFps">---</strong>
+                        </div>
+
+
+                        <div class="optimization-item">
+                            <span>🎨 Gráficos</span>
+                            <strong id="boostGraphics">---</strong>
+                        </div>
+
+
+                        <div class="optimization-item">
+                            <span>🌑 Sombras</span>
+                            <strong id="boostShadows">---</strong>
+                        </div>
+
+
+                        <div class="optimization-item">
+                            <span>✨ Efeitos</span>
+                            <strong id="boostEffects">---</strong>
+                        </div>
+
+
+                        <div class="optimization-item">
+                            <span>⚙️ Desempenho</span>
+                            <strong id="boostPerformance">---</strong>
+                        </div>
+
+
+                        <div class="optimization-item">
+                            <span>📡 Conexão</span>
+                            <strong id="boostConnection">---</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="boost-tips">
+
+                        <h4>💡 DICAS RAVI BOOST</h4>
+
+                        <p id="boostTip">
+                            ---
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SOBRE -->
+
         <section class="about" id="sobre">
 
             <div class="section-title">
@@ -172,7 +291,7 @@
 
                 <span>
                     Um projeto criado para gerar configurações
-                    personalizadas de sensibilidade.
+                    personalizadas de sensibilidade e otimização.
                 </span>
 
             </div>
@@ -195,4 +314,3 @@
 
 </body>
 </html>
-```
